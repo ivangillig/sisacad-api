@@ -78,6 +78,26 @@ export default {
 				{
 					label: 'Pages', icon: 'pi pi-fw pi-clone',
 					items: [
+                        {
+                            label: 'Submenu 1', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                {
+                                    label: 'Submenu 1.1', icon: 'pi pi-fw pi-bookmark',
+                                    items: [
+                                        {label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark'},
+                                        {label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark'},
+                                        {label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark'},
+                                    ]
+                                },
+                                {
+                                    label: 'Submenu 1.2', icon: 'pi pi-fw pi-bookmark',
+                                    items: [
+                                        {label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark'},
+                                        {label: 'Submenu 1.2.2', icon: 'pi pi-fw pi-bookmark'}
+                                    ]
+                                },
+                            ]
+                        },
 						{label: 'Crud', icon: 'pi pi-fw pi-user-edit', to: '/crud'},
 						{label: 'CrudAlumnos', icon: 'pi pi-fw pi-user-edit', to: '/alumnos'},
 						{label: 'Timeline', icon: 'pi pi-fw pi-calendar', to: '/timeline'},
@@ -93,7 +113,7 @@ export default {
                     label: 'Menu Hierarchy', icon: 'pi pi-fw pi-search',
                     items: [
                         {
-                            label: 'Submenu 1', icon: 'pi pi-fw pi-bookmark',
+                            label: 'Submenu 15', icon: 'pi pi-fw pi-bookmark',
                             items: [
                                 {
                                     label: 'Submenu 1.1', icon: 'pi pi-fw pi-bookmark',

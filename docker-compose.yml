@@ -12,13 +12,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
-  
-  frontend:
-    build: ./frontend
-    container_name: sisacad_frontend
-    command: npm run serve
-    ports:
-      - "8080:8080"
+
 
   backend:
     build: ./backend
@@ -35,7 +29,15 @@ services:
       - POSTGRES_HOST=db
     depends_on:
       - db
+  
+  frontend:
+    build: ./frontend
+    container_name: sisacad_frontend
+    command: npm run serve
+    ports:
+      - "8080:8080"
 
+      
   portainer:
     image: portainer/portainer-ce:latest
     container_name: sisacad_portainer

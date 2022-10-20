@@ -16,8 +16,9 @@ RUN pip install -r requirements.txt
 RUN chmod +x entrypoint.sh
 CMD [“sh entrypoint.sh” ]
 
+
 #Levanto el server
-#CMD ["python3 manage.py runserver --settings=core.settings.dev "]
+CMD ["python3 manage.py runserver --settings=core.settings.dev "]
 
 
 
