@@ -1,0 +1,10 @@
+#Para instalar todos los paquees pip: -r requirements.txt
+django
+django-admin
+psycopg2
+pillow
+djangorestframework
+django-cors-headers
+
+
+
