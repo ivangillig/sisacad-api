@@ -2,21 +2,30 @@ version: "3.9"
    
 services:
   db:
-    image: postgres
+    image: postgres:14.5
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    container_name: sisacad_db
     environment:
       - POSTGRES_DB=postgres2
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
+  
+  frontend:
+    build: ./frontend
+    container_name: sisacad_frontend
+    command: npm run serve
+    ports:
+      - "8080:8080"
 
-  web:
-    build: .
+  backend:
+    build: ./backend
+    container_name: sisacad_backend
     command: python manage.py runserver --settings=core.settings.dev  0.0.0.0:8000
-    volumes:
-      - .:/sistema_academico
+    #volumes:
+    #  - .:/backend/sistema_academico
     ports:
       - "8000:8000"
     environment:
@@ -29,7 +38,7 @@ services:
 
   portainer:
     image: portainer/portainer-ce:latest
-    container_name: portainer_academico
+    container_name: sisacad_portainer
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -39,6 +48,8 @@ services:
       - ./portainer-data:/data
     ports:
       - 9000:9000
+
+
 
 volumes:
   postgres_data:

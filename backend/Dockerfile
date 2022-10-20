@@ -13,9 +13,11 @@ RUN pip install --upgrade pip
 # Ejecutamos pip para instalar las dependencias en el contenedor
 RUN pip install -r requirements.txt
 
-ADD docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod a+x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+RUN chmod +x entrypoint.sh
+CMD [“sh entrypoint.sh” ]
+
+#Levanto el server
+#CMD ["python3 manage.py runserver --settings=core.settings.dev "]
 
 
 
