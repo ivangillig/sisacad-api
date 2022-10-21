@@ -22,6 +22,7 @@ router = routers.DefaultRouter()
 
 router.register('api/alumno', api.AlumnoViewSet)
 router.register('api/curso', api.CursoViewSet)
+router.register('api/nivel', api.NivelViewSet)
 
 urlpatterns = router.urls
 # [

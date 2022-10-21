@@ -135,6 +135,11 @@ const routes = [
                 component: () => import('./pages/CrudDocentes.vue')
             },
             {
+                path: '/administracion/niveles',
+                name: 'crudnivel',
+                component: () => import('./pages/administracion/CrudNivel.vue')
+            },
+            {
                 path: '/timeline',
                 name: 'timeline',
                 component: () => import('./pages/TimelineDemo.vue')

@@ -25,6 +25,7 @@ export default class ProductService {
     getProducts() {
         return axios.get('http://localhost:8000/api/alumno/').then(res => res.data);
     }
+    
 
     getProductsWithOrdersSmall() {
         return axios.get('assets/demo/data/products-orders-small.json').then(res => res.data.data);

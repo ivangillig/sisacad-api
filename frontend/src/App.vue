@@ -72,7 +72,7 @@ export default {
                         {
                             label: 'ABM', icon: 'pi pi-fw pi-user-edit',
                             items: [
-						{label: 'Listado Alumnos', icon: 'pi pi-fw pi-filter-fill', to: '/alumnos'},
+						{label: 'Niveles', icon: 'pi pi-fw pi-filter-fill', to: '/administracion/niveles'},
 						{label: 'Nuevo Alumno', icon: 'pi pi-fw pi-user-plus', to: '/alumnos/nuevoalumno'},
                             ]
                         },
