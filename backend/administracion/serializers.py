@@ -13,6 +13,7 @@ class AlumnoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Alumno
         fields = ('dni', 'nombre1', 'nombre2', 'apellido1', 'fecha_ingreso', 'genero', 'email_institucional')
+        read_only_fields = ('fecha_ingreso', )
         #fields = '__all__'
 
 class CursoSerializer(serializers.ModelSerializer):

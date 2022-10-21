@@ -40,6 +40,32 @@ export default {
                         label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'
                     }]
                 },
+                {
+                    label: 'Alumnos',
+                    items: [
+                        {
+                            label: 'ABM', icon: 'pi pi-fw pi-user-edit',
+                            items: [
+						{label: 'Listado Alumnos', icon: 'pi pi-fw pi-filter-fill', to: '/alumnos'},
+						{label: 'Nuevo Alumno', icon: 'pi pi-fw pi-user-plus', to: '/alumnos/nuevoalumno'},
+                            ]
+                        },
+						{label: 'Pago de cuota', icon: 'pi pi-fw pi-money-bill', to: '/alumnos/pagocuota'},
+						{label: 'Constancias alumno regular', icon: 'pi pi-fw pi-file-o', to: '/alumnos/pagocuota'},
+					]
+                },
+                {
+                    label: 'Docentes',
+                    items: [
+                        {
+                            label: 'Gestion de Docentes', icon: 'pi pi-fw pi-user-edit',
+                            items: [
+						{label: 'ABM Docentes', icon: 'pi pi-fw pi-user-edit', to: '/docentes'},
+                                
+                            ]
+                        },
+					]
+                },
 				{
 					label: 'UI Components', icon: 'pi pi-fw pi-sitemap',
 					items: [
@@ -79,23 +105,10 @@ export default {
 					label: 'Pages', icon: 'pi pi-fw pi-clone',
 					items: [
                         {
-                            label: 'Submenu 1', icon: 'pi pi-fw pi-bookmark',
+                            label: 'Alumnos', icon: 'pi pi-fw pi-user-edit',
                             items: [
-                                {
-                                    label: 'Submenu 1.1', icon: 'pi pi-fw pi-bookmark',
-                                    items: [
-                                        {label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark'},
-                                        {label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark'},
-                                        {label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark'},
-                                    ]
-                                },
-                                {
-                                    label: 'Submenu 1.2', icon: 'pi pi-fw pi-bookmark',
-                                    items: [
-                                        {label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark'},
-                                        {label: 'Submenu 1.2.2', icon: 'pi pi-fw pi-bookmark'}
-                                    ]
-                                },
+						{label: 'ABM Alumnos', icon: 'pi pi-fw pi-user-edit', to: '/alumnos'},
+                                
                             ]
                         },
 						{label: 'Crud', icon: 'pi pi-fw pi-user-edit', to: '/crud'},

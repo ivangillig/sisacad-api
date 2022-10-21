@@ -181,6 +181,8 @@
 import {FilterMatchMode} from 'primevue/api';
 import ProductService from '../service/ProductService';
 
+
+
 export default {
 	data() {
 		return {

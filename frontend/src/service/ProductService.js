@@ -23,7 +23,7 @@ export default class ProductService {
     }
 
     getProducts() {
-        return axios.get('http://localhost:8000/alumno/').then(res => res.data);
+        return axios.get('http://localhost:8000/api/alumno/').then(res => res.data);
     }
 
     getProductsWithOrdersSmall() {
