@@ -14,6 +14,10 @@ export default class AdministracionApi {
         return axios.post('http://localhost:8000/api/nivel/', nivel).then(res => res.data);
     }
 
+    deleteNivel(nivel) {
+        return axios.delete('http://localhost:8000/api/nivel/' + nivel).then(res => res.data);
+    }
+
     getProductsWithOrdersSmall() {
         return axios.get('assets/demo/data/products-orders-small.json').then(res => res.data.data);
     }

@@ -74,8 +74,8 @@
 					</div>
 
 					<div class="field">
-						<label for="inventoryStatus" class="mb-3">Estado</label>
-						<Dropdown id="inventoryStatus" v-model="product.estado" :options="statuses" optionLabel="label" placeholder="Estado del nivel">
+						<label for="estado" class="mb-3">Estado</label>
+						<Dropdown id="estado" v-model="product.estado" :options="statuses" optionLabel="label" placeholder="Estado del nivel">
 							<template #value="slotProps">
 								<div v-if="slotProps.value && slotProps.value.value">
 									<span :class="'product-badge status-' +slotProps.value.value">{{slotProps.value.label}}</span>
@@ -89,7 +89,6 @@
 							</template>
 						</Dropdown>
 					</div>
-
 					
 					<template #footer>
 						<Button label="Cancelar" icon="pi pi-times" class="p-button-text" @click="hideDialog"/>
@@ -178,19 +177,20 @@ export default {
 				this.products[this.findIndexById(this.product.id)] = this.product;
 
 
-				// this.administracionApi.newNivel(this.product).then(data => this.product = data);
+				this.administracionApi.newNivel(this.product).then(data => this.product = data);
 
 				this.$toast.add({severity:'success', summary: 'Exitoso', detail: 'Nivel actualizado!', life: 3000});
 				}
 				else {
-
+					this.product.estado = this.product.estado ? this.product.estado.value : 'Activo';
 					this.products.push(this.product);
 
-					this.administracionApi.newNivel(this.product).then(data => this.product = data);
-					this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+					this.administracionApi.newNivel(this.product);
+					this.$toast.add({severity:'success', summary: 'Exito', detail: 'Nivel creado correctamente!', life: 5000});
 				}
 				this.productDialog = false;
 				this.product = {};
+				this.administracionApi.getNiveles().then(data => this.products = data);
 			}
 		},
 		editProduct(product) {
@@ -202,10 +202,19 @@ export default {
 			this.deleteProductDialog = true;
 		},
 		deleteProduct() {
-			this.products = this.products.filter(val => val.id !== this.product.id);
+
+			this.administracionApi.deleteNivel(this.product.id).then(data => {
+				if(data.status === 200){
+				this.$toast.add({severity:'success', summary: 'Exito', detail: 'Nivel Eliminado', life: 5000});
+				}
+			});
+			
 			this.deleteProductDialog = false;
 			this.product = {};
-			this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+
+
+			this.administracionApi.getNiveles().then(data => this.products = data);
+
 		},
 		findIndexById(id) {
 			let index = -1;
