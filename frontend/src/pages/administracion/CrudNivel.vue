@@ -172,9 +172,9 @@ export default {
 		},
 		saveProduct() {
 			this.submitted = true;
-			if (this.product.name.trim()) {
+			if (this.product.nombre.trim()) {
 			if (this.product.id) {
-				this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value: this.product.inventoryStatus;
+				this.product.estado = this.product.estado.value ? this.product.estado.value: this.product.estado;
 				this.products[this.findIndexById(this.product.id)] = this.product;
 
 
@@ -183,11 +183,10 @@ export default {
 				this.$toast.add({severity:'success', summary: 'Exitoso', detail: 'Nivel actualizado!', life: 3000});
 				}
 				else {
-					this.product.id = this.createId();
-					this.product.code = this.createId();
-					this.product.image = 'product-placeholder.svg';
-					this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
+
 					this.products.push(this.product);
+
+					this.administracionApi.newNivel(this.product).then(data => this.product = data);
 					this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
 				}
 				this.productDialog = false;
