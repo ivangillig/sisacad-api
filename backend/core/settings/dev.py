@@ -27,9 +27,20 @@ SECRET_KEY = 'django-insecure-8vhs#pkzuw_wcnvf-_hemi@!vscl)&tqxlfx373v^o@vzp=x^1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-CORS_ORIGIN_ALLOW_ALL = True
+#Agregado de / automático
+APPEND_SLASH = False
 
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+    'http://10.0.2.15:8080'
+]
+
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
+
+SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SAMESITE = 'None'
 
 # Application definition
 

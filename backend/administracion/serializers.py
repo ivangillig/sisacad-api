@@ -23,6 +23,8 @@ class CursoSerializer(serializers.ModelSerializer):
         fields = ('curso', 'division_curso', 'cursos')
 
 class NivelSerializer(serializers.ModelSerializer):
+    created_by = AlumnoSerializer(source='docente')
+
     class Meta:
         model = Nivel
-        fields = ('id', 'nombre', 'estado', 'created_at')
+        fields = ('id', 'nombre', 'estado', 'created_at', 'created_by')

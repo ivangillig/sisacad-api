@@ -5,7 +5,7 @@ from administracion.serializers import AlumnoSerializer, CursoSerializer, NivelS
 
 class AlumnoViewSet(viewsets.ModelViewSet):
 
-    queryset = Alumno.objects.all() #.order_by('-nombre1')
+    queryset = Alumno.objects.all()
     serializer_class = AlumnoSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
@@ -17,6 +17,6 @@ class CursoViewSet(viewsets.ModelViewSet):
 
 class NivelViewSet(viewsets.ModelViewSet):
 
-    queryset = Nivel.objects.all() #.order_by('-nombre1')
+    queryset = Nivel.objects.all() 
     serializer_class = NivelSerializer
     # permission_classes = [permissions.IsAuthenticated]

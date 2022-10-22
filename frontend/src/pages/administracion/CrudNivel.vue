@@ -53,7 +53,7 @@
 					<Column field="created_at" header="Fecha Creado" :sortable="true" headerStyle="width:14%; min-width:10rem;">
 						<template #body="slotProps">
 							<span class="p-column-title">Fecha Creado</span>
-							{{formatCurrency(slotProps.data.created_at)}}
+							{{slotProps.data.created_at}}
 						</template>
 					</Column>
 
@@ -75,7 +75,7 @@
 
 					<div class="field">
 						<label for="estado" class="mb-3">Estado</label>
-						<Dropdown id="estado" v-model="product.estado" :options="statuses" optionLabel="label" placeholder="Estado del nivel">
+						<Dropdown id="estado" v-model="product.estado" :options="statuses" optionLabel="label" placeholder="Seleccione un estado">
 							<template #value="slotProps">
 								<div v-if="slotProps.value && slotProps.value.value">
 									<span :class="'product-badge status-' +slotProps.value.value">{{slotProps.value.label}}</span>
@@ -155,11 +155,6 @@ export default {
 		this.administracionApi.getNiveles().then(data => this.products = data);
 	},
 	methods: {
-		formatCurrency(value) {
-			if(value)
-				return value.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-			return;
-		},
 		openNew() {
 			this.product = {};
 			this.submitted = false;
@@ -176,10 +171,17 @@ export default {
 				this.product.estado = this.product.estado.value ? this.product.estado.value: this.product.estado;
 				this.products[this.findIndexById(this.product.id)] = this.product;
 
-
-				this.administracionApi.newNivel(this.product).then(data => this.product = data);
-
-				this.$toast.add({severity:'success', summary: 'Exitoso', detail: 'Nivel actualizado!', life: 3000});
+				this.administracionApi.updateNivel(this.product.id, this.product).then(data => {
+				console.log(data)
+				if(data.status === 200){
+					this.administracionApi.getNiveles().then(data => this.products = data);
+					this.$toast.add({severity:'success', summary: 'Exitoso', detail: 'Nivel actualizado!', life: 3000});
+				}
+				if(data.status === 400){
+					this.$toast.add({severity:'error', summary: 'Hubo un error', detail: 'Intente nuevamente...', life: 3000});
+				}
+				});
+			
 				}
 				else {
 					this.product.estado = this.product.estado ? this.product.estado.value : 'Activo';
@@ -188,8 +190,10 @@ export default {
 					this.administracionApi.newNivel(this.product);
 					this.$toast.add({severity:'success', summary: 'Exito', detail: 'Nivel creado correctamente!', life: 5000});
 				}
+
 				this.productDialog = false;
 				this.product = {};
+				
 				this.administracionApi.getNiveles().then(data => this.products = data);
 			}
 		},
@@ -204,7 +208,9 @@ export default {
 		deleteProduct() {
 
 			this.administracionApi.deleteNivel(this.product.id).then(data => {
-				if(data.status === 200){
+				if(data.status === 204){
+
+				this.administracionApi.getNiveles().then(data => this.products = data);
 				this.$toast.add({severity:'success', summary: 'Exito', detail: 'Nivel Eliminado', life: 5000});
 				}
 			});
@@ -213,7 +219,6 @@ export default {
 			this.product = {};
 
 
-			this.administracionApi.getNiveles().then(data => this.products = data);
 
 		},
 		findIndexById(id) {

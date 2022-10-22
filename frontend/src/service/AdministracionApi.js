@@ -1,24 +1,31 @@
-import axios from 'axios';
+// import axios from 'axios';
+import clienteAxios from "../config/axios";
 
 export default class AdministracionApi {
 
+    url = "http://localhost:8000";
+
     getProductsSmall() {
-        return axios.get('assets/demo/data/products-small.json').then(res => res.data.data);
+        return clienteAxios.get('assets/demo/data/products-small.json').then(res => res.data.data);
     }
 
     getNiveles() {
-        return axios.get('http://localhost:8000/api/nivel/').then(res => res.data);
+        return clienteAxios.get('/nivel/').then(res => res.data);
     }
 
     newNivel(nivel) {
-        return axios.post('http://localhost:8000/api/nivel/', nivel).then(res => res.data);
+        return clienteAxios.post('/nivel/', nivel);
     }
 
-    deleteNivel(nivel) {
-        return axios.delete('http://localhost:8000/api/nivel/' + nivel).then(res => res.data);
+    updateNivel(id, nivel) {
+        return clienteAxios.put(`/nivel/${id}/`, nivel);
+    }
+
+    deleteNivel(id) {
+        return clienteAxios.delete(`/nivel/${id}/`);
     }
 
     getProductsWithOrdersSmall() {
-        return axios.get('assets/demo/data/products-orders-small.json').then(res => res.data.data);
+        return clienteAxios.get('assets/demo/data/products-orders-small.json').then(res => res.data.data);
     }
 }

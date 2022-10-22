@@ -18,11 +18,14 @@ from rest_framework import routers
 from administracion import api
 from administracion import views
 
+#el trailing slash es para no tener que poner las / en las url
+#trailing_slash=False
 router = routers.DefaultRouter()
 
 router.register('api/alumno', api.AlumnoViewSet)
 router.register('api/curso', api.CursoViewSet)
 router.register('api/nivel', api.NivelViewSet)
+
 
 urlpatterns = router.urls
 # [
