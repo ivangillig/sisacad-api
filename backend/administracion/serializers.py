@@ -6,7 +6,7 @@ from rest_framework import serializers
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'groups']
+        fields = ['url', 'username', 'groups']
 
 class AlumnoSerializer(serializers.ModelSerializer):
     #dni = serializers.CharField(source='user.username', read_only=True)

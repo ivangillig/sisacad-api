@@ -37,13 +37,13 @@
 							{{slotProps.data.id}}
 						</template>
 					</Column>
-					<Column field="name" header="Nombre" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+					<Column field="nombre" header="Nombre" :sortable="true" headerStyle="width:14%; min-width:10rem;">
 						<template #body="slotProps">
 							<span class="p-column-title">Nombre</span>
 							{{slotProps.data.nombre}}
 						</template>
 					</Column>
-					<Column field="name" header="Estado" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+					<Column field="estado" header="Estado" :sortable="true" headerStyle="width:14%; min-width:10rem;">
 						<template #body="slotProps">
 							<span class="p-column-title">Estado</span>
 							{{slotProps.data.estado}}
@@ -54,6 +54,14 @@
 						<template #body="slotProps">
 							<span class="p-column-title">Fecha Creado</span>
 							{{slotProps.data.created_at}}
+						</template>
+					</Column>
+
+					<Column field="created_by" header="Creado por" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+						<template #body="slotProps">
+							<span class="p-column-title">Creado por</span>
+							{{slotProps.data.created_by.nombre1}} 
+							{{slotProps.data.created_by.apellido1}}
 						</template>
 					</Column>
 
@@ -153,6 +161,7 @@ export default {
 	},
 	mounted() {
 		this.administracionApi.getNiveles().then(data => this.products = data);
+
 	},
 	methods: {
 		openNew() {

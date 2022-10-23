@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+
+
 # Importo los modelos
 from administracion.models import Persona, Docente, Materia, Alumno, Documentacion_Docente, Rol, Tutor, Tutor_Alumno, Division, Nivel, Modalidad, Año, Curso, Curso_Alumno
 
@@ -19,12 +21,3 @@ admin.site.register(Curso)
 admin.site.register(Curso_Alumno)
 admin.site.register(Materia)
 
-# class ComentarioInline(admin.TabularInline):
-#     model = Comentario
-
-# class PostAdmin(admin.ModelAdmin):
-#     inlines = [
-#         ComentarioInline,
-#     ]
-
-# admin.site.register(Post, PostAdmin)

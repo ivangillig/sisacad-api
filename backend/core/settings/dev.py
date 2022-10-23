@@ -45,12 +45,16 @@ CSRF_COOKIE_SAMESITE = 'None'
 # Application definition
 
 INSTALLED_APPS = [
+    ## Django default apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    ## Mis apps
+    'users',
     'administracion',
     'rest_framework',
     'corsheaders',
@@ -100,7 +104,6 @@ DATABASES = {
         }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -143,5 +146,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# User substitution
+# https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#auth-custom-user
+
+AUTH_USER_MODEL = 'users.User'
 
 
