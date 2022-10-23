@@ -33,11 +33,13 @@ APPEND_SLASH = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
-    'http://10.0.2.15:8080'
+    'http://10.0.2.15:8080',
+    'http://192.168.0.21:8080'
 ]
 
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = False
 
 SESSION_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_SAMESITE = 'None'
@@ -77,7 +79,8 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        #'DIRS': [],
+        "DIRS": [BASE_DIR / "templates"], ##Agregado
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -151,4 +154,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 
-
+## AGREGADO
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"

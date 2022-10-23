@@ -57,13 +57,13 @@
 						</template>
 					</Column>
 
-					<Column field="created_by" header="Creado por" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+					<!-- <Column field="created_by" header="Creado por" :sortable="true" headerStyle="width:14%; min-width:10rem;">
 						<template #body="slotProps">
 							<span class="p-column-title">Creado por</span>
 							{{slotProps.data.created_by.nombre1}} 
 							{{slotProps.data.created_by.apellido1}}
 						</template>
-					</Column>
+					</Column> -->
 
 					<Column headerStyle="min-width:10rem;">
 						<template #body="slotProps">
@@ -176,34 +176,39 @@ export default {
 		saveProduct() {
 			this.submitted = true;
 			if (this.product.nombre.trim()) {
-			if (this.product.id) {
-				this.product.estado = this.product.estado.value ? this.product.estado.value: this.product.estado;
-				this.products[this.findIndexById(this.product.id)] = this.product;
+				if (this.product.id) {
+					this.product.estado = this.product.estado.value ? this.product.estado.value: this.product.estado;
+					this.products[this.findIndexById(this.product.id)] = this.product;
 
-				this.administracionApi.updateNivel(this.product.id, this.product).then(data => {
-				console.log(data)
-				if(data.status === 200){
-					this.administracionApi.getNiveles().then(data => this.products = data);
-					this.$toast.add({severity:'success', summary: 'Exitoso', detail: 'Nivel actualizado!', life: 3000});
-				}
-				if(data.status === 400){
-					this.$toast.add({severity:'error', summary: 'Hubo un error', detail: 'Intente nuevamente...', life: 3000});
-				}
-				});
+					this.administracionApi.updateNivel(this.product.id, this.product).then(data => {
+					console.log(data)
+						if(data.status === 200){
+							this.administracionApi.getNiveles().then(data => this.products = data);
+							this.$toast.add({severity:'success', summary: 'Exitoso', detail: 'Nivel actualizado!', life: 3000});
+						}
+						if(data.status === 400){
+							this.$toast.add({severity:'error', summary: 'Hubo un error', detail: 'Intente nuevamente...', life: 3000});
+						}
+					});
 			
 				}
 				else {
 					this.product.estado = this.product.estado ? this.product.estado.value : 'Activo';
 					this.products.push(this.product);
 
-					this.administracionApi.newNivel(this.product);
-					this.$toast.add({severity:'success', summary: 'Exito', detail: 'Nivel creado correctamente!', life: 5000});
-				}
+					this.administracionApi.newNivel(this.product).then(data => {
+					if(data.status === 201){
+						this.administracionApi.getNiveles().then(data => this.products = data);
+						this.$toast.add({severity:'success', summary: 'Exito', detail: 'Nivel creado correctamente!', life: 5000});
+					}});
+				
 
+				
+				
+				//this.administracionApi.getNiveles().then(data => this.products = data);
+				}
 				this.productDialog = false;
 				this.product = {};
-				
-				this.administracionApi.getNiveles().then(data => this.products = data);
 			}
 		},
 		editProduct(product) {

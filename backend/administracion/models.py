@@ -236,7 +236,7 @@ class Division(models.Model):
 
 class Nivel(models.Model):
     
-    docente = models.ForeignKey(Docente, related_name='docente', on_delete=models.CASCADE, null=True)
+    #docente = models.ForeignKey(Docente, related_name='docente', on_delete=models.CASCADE, null=True)
     nombre = models.CharField(max_length=30, unique=True)
     STATUS_CHOICES = [
         ('Activo', 'Activo'),
