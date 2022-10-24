@@ -16,6 +16,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -46,7 +47,7 @@ CSRF_COOKIE_SAMESITE = 'None'
 
 # Application definition
 
-INSTALLED_APPS = [
+BASE_APPS = [
     ## Django default apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -54,18 +55,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
 
-    ## Mis apps
-    'users',
-    'administracion',
-    'alumnos',
+LOCAL_APPS = [
+    'apps.users',
+    'apps.administracion',
+    'apps.alumnos',
+]
+
+THIRD_APPS = [
     'rest_framework',
     'corsheaders',
 ]
 
+INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
+
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware', #agregado
-    'django.middleware.common.CommonMiddleware', #agregado
+    'corsheaders.middleware.CorsMiddleware', #added
+    'django.middleware.common.CommonMiddleware', #added
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,8 +87,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        #'DIRS': [],
-        "DIRS": [BASE_DIR / "templates"], ##Agregado
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,6 +102,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 DATABASES = {
         'default': {
