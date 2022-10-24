@@ -22,14 +22,7 @@ from administracion import views
 #trailing_slash=False
 router = routers.DefaultRouter()
 
-router.register('api/alumno', api.AlumnoViewSet)
 router.register('api/curso', api.CursoViewSet)
 router.register('api/nivel', api.NivelViewSet)
 
-
 urlpatterns = router.urls
-# [
-#     path('admin/', admin.site.urls),
-#     path('', include(router.urls)),
-#     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-# ]

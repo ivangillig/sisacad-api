@@ -1,4 +1,5 @@
 from django.db import models
+#from alumnos.models import Alumno
 from django.conf import settings
 
 #aux
@@ -101,28 +102,7 @@ class Docente(Persona):
         )
         return texto
 
-class Alumno(Persona):
-    
-    telefono_familiar = models.CharField(max_length=15, blank=True, null=True)
-    tratamiento_medico = models.BooleanField(blank=True, null=True)
-    medicamentos = models.TextField(max_length=200, blank=True, null=True)
-    alergias = models.TextField(max_length=200, blank=True, null=True)
-    observaciones = models.TextField(max_length=200, blank=True, null=True)
-    cert_escolar_destino = models.CharField(max_length=30, blank=True, null=True)
-    fecha_ingreso = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    fecha_baja = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    aut_paseos = models.BooleanField(default=False)
-    aut_medica = models.BooleanField(default=False)
-    aut_salida = models.BooleanField(default=False)
-    aut_publica = models.BooleanField(default=False)
 
-    def __str__(self):
-        texto = '{} - {} {}'.format(
-            self.user_id,
-            self.apellido1,
-            self.nombre1,
-        )
-        return texto
 
 class Materia(models.Model):
 
@@ -169,11 +149,6 @@ class Documentacion_Docente(models.Model):
         )
         return texto
 
-class Tutor(Persona):
-
-    Profesion = models.CharField(max_length=15, blank=True, null=True)
-    domicilio_laboral = models.CharField(max_length=30, blank=True, null=True)
-    telefono_laboral = models.CharField(max_length=12, blank=True, null=True)
 
 
     def __str__(self):
@@ -183,34 +158,7 @@ class Tutor(Persona):
         )
         return texto
 
-class Tutor_Alumno(models.Model):
 
-    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
-    alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
-
-    TIPO_OPCIONES = [
-        ('Madre', 'Madre'),
-        ('Padre', 'Padre'),
-        ('Tutor legal', 'Tutor legal'),
-    ]
-    vinculo = models.CharField(
-        max_length=15,
-        choices = TIPO_OPCIONES,
-        default='Tutor legal',
-        )
-    
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['tutor', 'alumno'], name='tutor_alumno_combinacion'
-            )
-        ]
-
-    def __str__(self):
-        texto = '{}'.format(
-            self.vinculo,
-        )
-        return texto
 
 class Division(models.Model):
     
@@ -351,7 +299,7 @@ class Curso(models.Model):
 
 class Curso_Alumno(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
-    alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
+    alumno = models.ForeignKey('alumnos.Alumno', on_delete=models.CASCADE)
     fecha_alta = models.DateField(blank=True, null=True)
     fecha_baja = models.DateField(blank=True, null=True)
 

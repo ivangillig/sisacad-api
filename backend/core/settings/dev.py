@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     ## Mis apps
     'users',
     'administracion',
+    'alumnos',
     'rest_framework',
     'corsheaders',
 ]

@@ -1,13 +1,7 @@
 
-from administracion.models import Alumno, Curso, Nivel
+from administracion.models import Curso, Nivel
 from rest_framework import viewsets, permissions
-from administracion.serializers import AlumnoSerializer, CursoSerializer, NivelSerializer
-
-class AlumnoViewSet(viewsets.ModelViewSet):
-
-    queryset = Alumno.objects.all()
-    serializer_class = AlumnoSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+from administracion.serializers import CursoSerializer, NivelSerializer
 
 class CursoViewSet(viewsets.ModelViewSet):
 
