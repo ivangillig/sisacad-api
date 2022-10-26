@@ -9,10 +9,10 @@ class User(AbstractUser):
     """User model."""
 
     username = None
-    email = models.EmailField(('email address'), unique=True)
+    email = models.EmailField(('Email institucional'), unique=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = [] #asked in console
 
     objects = UserManager()
 

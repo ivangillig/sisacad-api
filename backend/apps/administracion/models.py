@@ -57,6 +57,11 @@ class Person(models.Model):
         default='No aplica',
         )
     created_date = models.DateField('Fecha de alta')
+
+    class Meta:
+        verbose_name = 'Persona'
+        verbose_name_plural = 'Personas'
+        ordering = ['first_name']
     
     def __str__(self):
         texto = '{} {}'.format(
@@ -98,6 +103,10 @@ class Teacher(Person):
         default='En actividad',
         )
 
+    class Meta:
+        verbose_name = 'Docente'
+        verbose_name_plural = 'Docentes'
+
 
     def __str__(self):
         text = '{}'.format(
@@ -111,6 +120,10 @@ class Subject(models.Model):
     name = models.CharField('Nombre de materia', max_length=30, unique=True)
     created_date = models.DateField('Fecha de creación')
     deleted_date = models.DateField('Fecha de eliminación', blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Materia'
+        verbose_name_plural = 'Materias'
 
     def __str__(self):
         text= '{} - {}'.format(
@@ -132,6 +145,10 @@ class Documents(models.Model):
         choices = TYPE_CHOICES,
         default='DNI',
         )
+    
+    class Meta:
+        verbose_name = 'Documento'
+        verbose_name_plural = 'Documentos'
 
     def __str__(self):
         text = '{}'.format(
@@ -144,6 +161,10 @@ class Teacher_Documents(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
     documents = models.ForeignKey(Documents, on_delete=models.CASCADE, verbose_name='Documentación')
     created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Docente_Documento'
+        verbose_name_plural = 'Docentes_Documentos'
 
     def __str__(self):
         text = '{}'.format(
@@ -165,6 +186,10 @@ class Division(models.Model):
         default='Activo',
         )
     created_date = models.DateField('Fecha de creación', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'División'
+        verbose_name_plural = 'Divisiones'
 
     def __str__(self):
         text = '{} - {}'.format(
@@ -188,6 +213,10 @@ class Level(models.Model): ## Level o Grade ???
         default='Activo',
         )
     created_date = models.DateField('Fecha de creación', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Nivel'
+        verbose_name_plural = 'Niveles'
 
     def __str__(self):
         text = '{} - {}'.format(
@@ -213,6 +242,10 @@ class Speciality(models.Model):
     created_date = models.DateField('Fecha de alta', blank=True, null=True)
     leaving_date = models.DateField('Fecha de baja', blank=True, null=True)
 
+    class Meta:
+        verbose_name = 'Modalidad'
+        verbose_name_plural = 'Modalidades'
+
 
     def __str__(self):
         text = '{} - {}'.format(
@@ -237,6 +270,10 @@ class Grade(models.Model):
         choices = STATE_CHOICES,
         default='Activo',
         )
+
+    class Meta:
+        verbose_name = 'Año'
+        verbose_name_plural = 'Años'
 
     def __str__(self):
         # if self.division.name is not None or self.speciality.name is not None:
@@ -284,6 +321,8 @@ class Course(models.Model):
                 fields=['grade', 'academic_year'], name='id_course_combination'
             )
         ]
+        verbose_name = 'Curso'
+        verbose_name_plural = 'Cursos'
 
     def __str__(self):
         text = '{} {} - Turno {}'.format(
@@ -305,6 +344,8 @@ class Course_Student(models.Model):
                 fields=['course', 'student'], name='course_student_combination'
             )
         ]
+        verbose_name = 'Curso_Alumno'
+        verbose_name_plural = 'Cursos_Alumnos'
 
     def __str__(self):
         text = '{} {} {} - {} {}'.format(

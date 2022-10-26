@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Importo los modelos
-from apps.administracion.models import Course_Student, Person, Teacher, Subject, Teacher_Documents, Role, Division, Level, Speciality, Grade, Course, Course_Student
+from apps.administracion.models import *
 
 # Register your models here.
 admin.site.register(Person)

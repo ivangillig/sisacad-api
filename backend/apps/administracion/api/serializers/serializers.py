@@ -1,12 +1,11 @@
-# from users.models import User
-from apps.administracion.models import Course, Level, Speciality
+from apps.administracion.models import Course, Level, Speciality, Role
 from rest_framework import serializers
 
 
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['url', 'username', 'groups']
+class RoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model: Role
+        fields = ('__all__')
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -28,3 +27,4 @@ class SpecialitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Speciality
         fields = ('id', 'name', 'state') #, 'created_by'
+        #exclude = ('state',)

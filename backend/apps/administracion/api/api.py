@@ -1,7 +1,7 @@
 
 from apps.administracion.models import Course, Level, Speciality
 from rest_framework import viewsets, permissions
-from apps.administracion.api.serializers import CourseSerializer, LevelSerializer, SpecialitySerializer
+from apps.administracion.api.serializers.serializers import CourseSerializer, LevelSerializer, SpecialitySerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):

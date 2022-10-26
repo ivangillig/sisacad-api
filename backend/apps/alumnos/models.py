@@ -1,3 +1,5 @@
+from curses import meta
+from operator import methodcaller
 from django.db import models
 from django.conf import settings
 from apps.administracion.models import Person
@@ -18,11 +20,14 @@ class Student(Person):
     leave_auth = models.BooleanField('Autorización de salida', default=False)
     public_auth = models.BooleanField('Autorización para publicar', default=False)
 
+    class Meta:
+        verbose_name = 'Alumno'
+        verbose_name_plural = 'Alumnos'
+
     def __str__(self):
-        text = '{} - {} {}'.format(
-            self.user_id,
+        text = '{} {}'.format(
             self.first_lastname,
-            self.firstname,
+            self.first_name,
         )
         return text
 
@@ -31,6 +36,10 @@ class Tutor(Person):
     profession = models.CharField('Profesión', max_length=15, blank=True, null=True)
     job_address = models.CharField('Domicilio laboral', max_length=30, blank=True, null=True)
     job_phone = models.CharField('Teléfono laboral', max_length=12, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Tutor'
+        verbose_name_plural = 'Tutores'
 
     def __str__(self):
         text = '{} {}'.format(
@@ -62,6 +71,8 @@ class Student_Tutor(models.Model):
                 fields=['tutor', 'student'], name='tutor_student_combination'
             )
         ]
+        verbose_name = 'Alumno_Tutor'
+        verbose_name_plural = 'Alumnos_Tutores'
 
     def __str__(self):
         text = '{}'.format(
