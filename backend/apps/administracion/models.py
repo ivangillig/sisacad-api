@@ -1,118 +1,9 @@
 from django.db import models
-from django.conf import settings
 
 #aux
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
-
-class Role(models.Model):
-    
-    name = models.CharField('Nombre', max_length=30)
-
-    def __str__(self):
-        texto = '{}'.format(
-            self.name,
-        )
-        return texto
-
-class Person(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Rol')
-    first_name = models.CharField('Primer nombre', max_length=15)
-    middle_name = models.CharField('Segundo nombre', max_length=15, blank=True, null=True)
-    first_lastname = models.CharField('Primer apellido', max_length=15)
-    second_lastname = models.CharField('Segundo apellido', max_length=15, blank=True, null=True)
-    doc_number = models.CharField('DNI', max_length=13)
-    personal_email = models.EmailField('Email personal', max_length=40, blank=True, null=True)
-    birthday = models.DateField('Fecha de nacimiento', blank=True, null=True)
-    birth_place = models.CharField('Lugar de nacimiento', max_length=15, blank=True, null=True)
-    nationality = models.CharField('Nacionalidad', max_length=15, blank=True, null=True)
-    CHOICES_GENDER = [
-        ('Masculino', 'Masculino'),
-        ('Femenino', 'Femenino'),
-        ('Sin genero', 'Sin genero'),
-        ('Sin especificar', 'Sin especificar'),
-    ]
-    gender = models.CharField(
-        'Género',
-        max_length=20,
-        choices = CHOICES_GENDER,
-        default='Sin especificar',
-        )
-    address = models.CharField('Dirección', max_length=15, blank=True, null=True)
-    neighborhood = models.CharField('Barrio', max_length=15, blank=True, null=True)
-    phone = models.CharField('Nro de teléfono', max_length=15, blank=True, null=True)
-    STATE_CHOICES = [
-        ('Soltero', 'Soltero'),
-        ('Casado', 'Casado'),
-        ('Divorciado', 'Divorciado'),
-        ('Viudo/a', 'Viudo/a'),
-        ('No aplica', 'No aplica'),
-    ]
-    marital_status = models.CharField(
-        'Estado civil',
-        max_length=20,
-        choices = STATE_CHOICES,
-        default='No aplica',
-        )
-    created_date = models.DateField('Fecha de alta')
-
-    class Meta:
-        verbose_name = 'Persona'
-        verbose_name_plural = 'Personas'
-        ordering = ['first_name']
-    
-    def __str__(self):
-        texto = '{} {}'.format(
-            self.first_name,
-            self.first_lastname,
-        )
-        return texto
-
-class Teacher(Person):
-    
-    cuil = models.CharField(max_length=15, blank=True, null=True)
-    STATE_CHOICES = [
-        ('Activo', 'Activo'),
-        ('Inactivo', 'Inactivo'),
-    ]
-    state = models.CharField(
-        'Estado',
-        max_length=10,
-        choices = STATE_CHOICES,
-        default='Activo',
-        )
-    seniority_date = models.DateField('Fecha de antiguedad', blank=True, null=True)
-    seniority_qty = models.IntegerField('Antiguedd reconocida', blank=True, null=True)
-    STATISTICS_CHOICES = [
-        ('En actividad', 'En actividad'),
-        ('Tareas pasivas', 'Tareas pasivas'),
-        ('Docentes afectados al JIF pero de otra POF', 'Docentes afectados al JIF pero de otra POF'),
-        ('Docentes del JIF afectados a otro establecimiento', 'Docentes del JIF afectados a otro establecimiento'),
-        ('Sin subvención', 'Sin subvención'),
-        ('Baja', 'Baja'),
-        ('Fuera de actividad', 'InaFuera de actividadctivo'),
-        ('A.T. / Integrador', 'A.T. / Integrador'),
-        ('Par pedagógico / Dep. de dirección privada', 'Par pedagógico / Dep. de dirección privada'),
-    ]
-    statistics = models.CharField(
-        'Estadística',
-        max_length=50,
-        choices = STATISTICS_CHOICES,
-        default='En actividad',
-        )
-
-    class Meta:
-        verbose_name = 'Docente'
-        verbose_name_plural = 'Docentes'
-
-
-    def __str__(self):
-        text = '{}'.format(
-            self.doc_number,
-        )
-        return text
 
 
 class Subject(models.Model):
@@ -156,21 +47,7 @@ class Documents(models.Model):
         )
         return text
 
-class Teacher_Documents(models.Model):
-    
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
-    documents = models.ForeignKey(Documents, on_delete=models.CASCADE, verbose_name='Documentación')
-    created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
 
-    class Meta:
-        verbose_name = 'Docente_Documento'
-        verbose_name_plural = 'Docentes_Documentos'
-
-    def __str__(self):
-        text = '{}'.format(
-            self.id,
-        )
-        return text
 
 class Division(models.Model):
     

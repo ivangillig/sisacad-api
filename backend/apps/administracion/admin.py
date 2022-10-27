@@ -2,6 +2,8 @@ from django.contrib import admin
 
 # Importo los modelos
 from apps.administracion.models import *
+from apps.users.models import Person, Role
+from apps.docentes.models import *
 
 # Register your models here.
 admin.site.register(Person)

@@ -2,7 +2,7 @@ from curses import meta
 from operator import methodcaller
 from django.db import models
 from django.conf import settings
-from apps.administracion.models import Person
+from apps.users.models import Person
 
 # Create your models here.
 class Student(Person):

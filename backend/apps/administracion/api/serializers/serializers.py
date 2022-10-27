@@ -1,4 +1,5 @@
-from apps.administracion.models import Course, Level, Speciality, Role
+from apps.administracion.models import Course, Level, Speciality
+from apps.users.models import  Role
 from rest_framework import serializers
 
 
