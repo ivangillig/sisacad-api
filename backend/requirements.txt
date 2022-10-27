@@ -5,6 +5,6 @@ psycopg2
 pillow
 djangorestframework
 django-cors-headers
-
+django-countries[pyuca]
 
 
