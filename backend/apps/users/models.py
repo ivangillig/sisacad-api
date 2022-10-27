@@ -1,9 +1,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
 from .managers import UserManager
+
+##THIRDPARTY
+from django_countries.fields import CountryField
+from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser):
 
@@ -47,7 +50,7 @@ class Person(models.Model):
     personal_email = models.EmailField('Email personal', max_length=40, blank=True, null=True)
     birthday = models.DateField('Fecha de nacimiento', blank=True, null=True)
     birth_place = models.CharField('Lugar de nacimiento', max_length=15, blank=True, null=True)
-    nationality = models.CharField('Nacionalidad', max_length=15, blank=True, null=True)
+    nationality = CountryField('Nacionalidad', blank_label='Selecciona un país', null=True)
     CHOICES_GENDER = [
         ('Masculino', 'Masculino'),
         ('Femenino', 'Femenino'),

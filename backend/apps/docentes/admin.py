@@ -14,7 +14,7 @@ admin.site.register(Teacher_Documents)
 class Position_TeacherAdmin(admin.ModelAdmin):
     model = Position
 
-    list_display = ( 'place_number1', 'category_id', 'category_name', 'teacher_name', 'teacher_lastname', 'position_type')
+    list_display = ( 'place_number1', 'category_name', 'category_id', 'teacher_name', 'teacher_lastname', 'position_type')
 
     def place_number1(self,obj):
         return obj.position.place_number1

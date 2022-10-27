@@ -3,6 +3,9 @@ from django.contrib import admin
 # Importo los modelos
 from apps.administracion.models import *
 
+
+admin.site.register(Documents)
+
 class PositionAdmin(admin.ModelAdmin):
     model = Category
 
@@ -12,7 +15,6 @@ class PositionAdmin(admin.ModelAdmin):
         return obj.category.name
 
 admin.site.register(Position, PositionAdmin)
-
 class GradeAdmin(admin.ModelAdmin):
     model = Category
 

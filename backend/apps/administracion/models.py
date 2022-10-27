@@ -1,6 +1,7 @@
 from django.db import models
 
 from apps.docentes.models import Position_Teacher
+from apps.users.models import Role
 
 #aux
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -24,20 +25,11 @@ class Subject(models.Model):
             self.name,
         )
         return text
+
 class Documents(models.Model):
     
-    TYPE_CHOICES = [
-        ('DNI', 'DNI'),
-        ('Certificado', 'Certificado'),
-        ('Constancia 1', 'Constancia 1'),
-        ('Constancia 2', 'Constancia 2'),
-    ]
-    document_type = models.CharField(
-        'Tipo de documentación',
-        max_length=15,
-        choices = TYPE_CHOICES,
-        default='DNI',
-        )
+    document_type = models.CharField('Tipo de documento', max_length=30, unique=True)
+    role = models.ForeignKey("users.Role", verbose_name=_("Usuarios"), on_delete=models.CASCADE, null=True)
     
     class Meta:
         verbose_name = 'Documento'

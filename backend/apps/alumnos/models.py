@@ -8,7 +8,7 @@ from apps.users.models import Person
 class Student(Person):
     
     family_phone = models.CharField('Teléfono familiar', max_length=15, blank=True, null=True)
-    medical_treatment = models.BooleanField('Tratamiento médico', blank=True, null=True)
+    medical_treatment = models.BooleanField('Tratamiento médico', default=False, blank=True, null=True)
     medications = models.TextField('Medicamentos', max_length=200, blank=True, null=True)
     allergies = models.TextField('Alergias', max_length=200, blank=True, null=True)
     observations = models.TextField('Observaciones', max_length=200, blank=True, null=True)
@@ -80,3 +80,138 @@ class Student_Tutor(models.Model):
         )
         return text
 
+class Withdraw_Authorized(models.Model):
+
+    doc_number = models.CharField('DNI', max_length=15, primary_key=True, unique=True)
+    name = models.CharField('Nombre', max_length=15, blank=True, null=True)
+    lastname = models.CharField('Apellido', max_length=15, blank=True, null=True)
+    phone = models.CharField('Teléfono', max_length=15, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Autorizado'
+        verbose_name_plural = 'Autorizados'
+
+    def __str__(self):
+        text = '{} {}'.format(
+            self.name,
+            self.lastname,
+        )
+        return text
+
+class Student_Withdraw_Authorized(models.Model):
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Alumno')
+    withdraw_authorized = models.ForeignKey(Withdraw_Authorized, on_delete=models.CASCADE, verbose_name='Autorizado a retiro')
+    RELATIONSHIP_CHOICES = [
+        ('Hermano/a', 'Hermano/a'),
+        ('Primo/a', 'Primo/a'),
+        ('Tío/a', 'Tío/a'),
+        ('Otro', 'Otro'),
+    ]
+    relationship = models.CharField(
+        'Vínculo',
+        max_length=15,
+        choices = RELATIONSHIP_CHOICES,
+        default='Hermano/a',
+        )
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['withdraw_authorized', 'student'], name='authorized_student_combination'
+            )
+        ]
+        verbose_name = 'Autorizado_Alumno'
+        verbose_name_plural = 'Autorizados_Alumnos'
+
+    def __str__(self):
+        text = '{} {} - {} {}'.format(
+            self.withdraw_authorized.name,
+            self.withdraw_authorized.lastname,
+            self.student.first_name,
+            self.student.first_lastname,
+        )
+        return text
+
+class Payment(models.Model):
+
+    PAYMENT_CHOICES = [
+        ('1', 'Cuota mensual'),
+        ('2', 'Pago de matrícula'),
+    ]
+    payment_type = models.CharField(
+        'Tipo de pago',
+        max_length=1,
+        choices = PAYMENT_CHOICES,
+        default='1',
+        )
+    unit_amount = models.IntegerField('Monto unitario', blank=True, null=True)
+    BROTHERS_QTY_CHOICES = [
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5'),
+    ]
+    brothers_qty = models.CharField(
+        'Cantidad de hermanos',
+        max_length=1,
+        choices = BROTHERS_QTY_CHOICES,
+        default='1',
+        )
+    brothers_discount = models.IntegerField('Descuento por hermanos', blank=True, null=True)
+    payment_date = models.DateField('Fecha de pago', auto_now=False, auto_now_add=False, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Pago'
+        verbose_name_plural = 'Pagos'
+
+    def __str__(self):
+        text = '{} - {}'.format(
+            self.id,
+            self.payment_type,
+        )
+        return text
+
+class Payment_Student (models.Model):
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Alumno')
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, verbose_name='Pago')
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['payment', 'student'], name='payment_student_combination'
+            )
+        ]
+        verbose_name = 'Pago_Alumno'
+        verbose_name_plural = 'Pagos_Alumnos'
+
+    def __str__(self):
+        text = '{} {} - {} {}'.format(
+            self.payment.id,
+            self.payment.payment_type,
+            self.student.first_name,
+            self.student.first_lastname,
+        )
+        return text
+
+class Student_Documents (models.Model):
+
+    student = models.ForeignKey('alumnos.Student', on_delete=models.CASCADE, verbose_name='Alumno')
+    documents = models.ForeignKey('administracion.Documents', on_delete=models.CASCADE, verbose_name='Documentación')
+    file = models.FileField('Documento', upload_to='documentos/alumnos/%Y')
+    created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Alumno_Documento'
+        verbose_name_plural = 'Alumnos_Documentos'
+
+    def __str__(self):
+        text = '{} - {} - {} {}'.format(
+            self.id,
+            self.documents.document_type,
+            self.student.first_name,
+            self.student.first_lastname,
+        )
+        return text

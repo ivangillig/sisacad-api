@@ -54,6 +54,7 @@ class Teacher_Documents(models.Model):
     
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
     documents = models.ForeignKey('administracion.Documents', on_delete=models.CASCADE, verbose_name='Documentación')
+    file = models.FileField('Documento', upload_to='documentos/alumnos/%Y')
     created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
 
     class Meta:
@@ -61,8 +62,11 @@ class Teacher_Documents(models.Model):
         verbose_name_plural = 'Docentes_Documentos'
 
     def __str__(self):
-        text = '{}'.format(
+        text = '{} - {} - {} {}'.format(
             self.id,
+            self.documents.document_type,
+            self.student.first_name,
+            self.student.first_lastname,
         )
         return text
 
@@ -83,6 +87,7 @@ class Position_Teacher(models.Model):
     condition = models.CharField('Situación', max_length=15, blank=True, null=True)
     created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
     deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
+    delete_motive = models.CharField('Motivo de baja', max_length=150, blank=True, null=True)
 
     class Meta:
         constraints = [
