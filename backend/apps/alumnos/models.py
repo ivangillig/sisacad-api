@@ -50,8 +50,8 @@ class Tutor(Person):
 
 class Student_Tutor(models.Model):
 
-    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Alumno')
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
 
     RELATIONSHIP_CHOICES = [
         ('Madre', 'Madre'),

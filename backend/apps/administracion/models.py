@@ -1,5 +1,7 @@
 from django.db import models
 
+from apps.docentes.models import Position_Teacher
+
 #aux
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
@@ -136,7 +138,7 @@ class Grade(models.Model):
     level = models.ForeignKey(Level, on_delete=models.CASCADE, verbose_name='Nivel')
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, verbose_name='Modalidad', blank=True, null=True)
     division = models.ForeignKey(Division, on_delete=models.CASCADE, verbose_name='División', blank=True, null=True)
-    name = models.CharField('Nombre', max_length=30, unique=True)
+    name = models.CharField('Nombre', max_length=30)
     STATE_CHOICES = [
         ('Activo', 'Activo'),
         ('Inactivo', 'Inactivo'),
@@ -149,21 +151,19 @@ class Grade(models.Model):
         )
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'division'], name='name_division_combination'
+            )
+        ]
         verbose_name = 'Año'
         verbose_name_plural = 'Años'
 
     def __str__(self):
-        # if self.division.name is not None or self.speciality.name is not None:
-        #     text = '{} {} {} - {}'.format(
-        #     self.name,
-        #     self.division.name,
-        #     self.speciality.name,
-        #     self.level.name,
-        #     )
-        # else:
-        text = '{} - {}'.format(
+        text = '{} {} - {}'.format(
         self.name,
-        self.level.name
+        self.level.name,
+        self.division.name
         )
         return text
 
@@ -202,10 +202,10 @@ class Course(models.Model):
         verbose_name_plural = 'Cursos'
 
     def __str__(self):
-        text = '{} {} - Turno {}'.format(
+        text = '{} {} - Ciclo {}'.format(
             self.grade.name,
             self.grade.division.name,
-            self.shift,
+            self.academic_year,
         )
         return text
 
@@ -231,5 +231,73 @@ class Course_Student(models.Model):
             self.course.academic_year,
             self.student.first_lastname,
             self.student.first_name,
+        )
+        return text
+
+class Course_Subject(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Curso')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name='Materia')
+    position_teacher = models.ForeignKey(Position_Teacher, on_delete=models.CASCADE, verbose_name='Cargo_Docente')
+    created_date = models.DateField('Fecha de alta', blank=True, null=True)
+    leaving_date = models.DateField('Fecha de baja', blank=True, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['course', 'subject'], name='course_subject_combination'
+            )
+        ]
+        verbose_name = 'Curso_Materia'
+        verbose_name_plural = 'Cursos_Materias'
+
+    def __str__(self):
+        text = '{} {} {} - {} - {} {}'.format(
+            self.course.grade.name,
+            self.course.grade.division.name,
+            self.course.academic_year,
+            self.subject.name,
+            self.position_teacher.teacher.first_name,
+            self.position_teacher.teacher.first_lastname,
+        )
+        return text
+
+
+
+class Category (models.Model):
+    
+    category_id = models.IntegerField('Código de categoría', primary_key=True)
+    name = models.CharField('Nombre', max_length=50, unique=True)
+    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
+    deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Categoría'
+        verbose_name_plural = 'Categorías'
+
+    def __str__(self):
+        text = '{} - {}'.format(
+            self.category_id,
+            self.name,
+        )
+        return text
+
+class Position (models.Model):
+    
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Categoría')
+    place_number1 = models.IntegerField('Nro de plaza 1', blank=True, null=True)
+    place_number2 = models.IntegerField('Nro de plaza 2', blank=True, null=True)
+    hours_qty = models.IntegerField('Cantidad de horas', blank=True, null=True)
+    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
+    deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Cargo'
+        verbose_name_plural = 'Cargos'
+
+    def __str__(self):
+        text = 'Nro Pza: {} - {} {}'.format(
+            self.place_number1,
+            self.category.category_id,
+            self.category.name
         )
         return text

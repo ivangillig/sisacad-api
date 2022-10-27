@@ -1,7 +1,7 @@
+from pyexpat import model
 from django.db import models
 
 from apps.users.models import Person
-from apps.administracion.models import Documents
 
 # Create your models here.
 class Teacher(Person):
@@ -43,15 +43,17 @@ class Teacher(Person):
 
 
     def __str__(self):
-        text = '{}'.format(
+        text = '{} - {} {}'.format(
             self.doc_number,
+            self.first_name,
+            self.first_lastname
         )
         return text
 
 class Teacher_Documents(models.Model):
     
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
-    documents = models.ForeignKey(Documents, on_delete=models.CASCADE, verbose_name='Documentación')
+    documents = models.ForeignKey('administracion.Documents', on_delete=models.CASCADE, verbose_name='Documentación')
     created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
 
     class Meta:
@@ -64,3 +66,38 @@ class Teacher_Documents(models.Model):
         )
         return text
 
+class Position_Teacher(models.Model):
+    
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
+    position = models.ForeignKey('administracion.Position', on_delete=models.CASCADE, verbose_name='Cargo')
+    POSITION_TYPE_CHOICES = [
+        ('Titular', 'Titular'),
+        ('Suplente', 'Suplente'),
+    ]
+    position_type = models.CharField(
+        'Tipo de cargo',
+        max_length=8,
+        choices = POSITION_TYPE_CHOICES,
+        default='Titular',
+        )
+    condition = models.CharField('Situación', max_length=15, blank=True, null=True)
+    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
+    deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['position', 'position_type'], name='position_type_combination'
+            )
+        ]
+        verbose_name = 'Cargo_Docente'
+        verbose_name_plural = 'Cargos_Docentes'
+
+    def __str__(self):
+        text = '{} - {} {} - {}'.format(
+            self.position.place_number1,
+            self.teacher.first_name,
+            self.teacher.first_lastname,
+            self.position_type
+        )
+        return text
