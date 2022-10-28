@@ -29,7 +29,6 @@ class GradeAdmin(admin.ModelAdmin):
 
 admin.site.register(Grade, GradeAdmin)
 
-# Register your models here.
 admin.site.register(Division)
 admin.site.register(Level)
 admin.site.register(Speciality)
@@ -48,11 +47,9 @@ class CourseAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Course_Subject)
-
 admin.site.register(Course, CourseAdmin)
-
 admin.site.register(Course_Student)
 admin.site.register(Subject)
-
 admin.site.register(Category)
+admin.site.register(Bank)
 

@@ -215,3 +215,4 @@ class Student_Documents (models.Model):
             self.student.first_lastname,
         )
         return text
+

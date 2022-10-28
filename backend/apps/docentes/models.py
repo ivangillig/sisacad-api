@@ -1,4 +1,5 @@
 from pyexpat import model
+from unittest.util import _MAX_LENGTH
 from django.db import models
 
 from apps.users.models import Person
@@ -107,11 +108,13 @@ class Position_Teacher(models.Model):
         )
         return text
 
-################################
+####################################
+###### LICENCIAS Y PERMISOS ########
+####################################
 
 class License(models.Model):
     
-    license_type = models.CharField('Tipo de licencia', max_length=30, blank=True, null=True, unique=True)
+    license_type = models.CharField('Tipo de licencia', max_length=30, unique=True, null=True)
     created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
 
     class Meta:
@@ -143,6 +146,147 @@ class Teacher_License(models.Model):
         text = '{} - {} - {} {}'.format(
             self.id,
             self.license.license_type,
+            self.teacher.first_name,
+            self.teacher.first_lastname,
+        )
+        return text
+
+class Permission_Request(models.Model):
+    
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
+    motive = models.CharField('Motivo del permiso', max_length=100)
+    request_date = models.DateField('Fecha de solicitud', auto_now_add=True)
+    permission_date = models.DateField('Fecha de salida', auto_now=False, auto_now_add=False, blank=True, null=True)
+    permission_checkin = models.TimeField('Hora de salida', auto_now=False, auto_now_add=False, blank=True, null=True)
+    permission_checkout = models.TimeField('Hora de entrada', auto_now=False, auto_now_add=False, blank=True, null=True)
+    STATUS_CHOICES = [
+        ('1', 'Pendiente de autorización'),
+        ('2', 'Aprobado'),
+        ('3', 'Rechazado'),
+    ]
+    status = models.CharField(
+        'Estado',
+        max_length=2,
+        choices = STATUS_CHOICES,
+        default='1',
+        )
+    rejected_motive = models.CharField('Motivo de rechazo', max_length=100, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Solicitud_Permiso'
+        verbose_name_plural = 'Solicitudes_Permisos'
+
+    def __str__(self):
+        text = '{} - {} - {} {}'.format(
+            self.id,
+            self.request_date,
+            self.teacher.first_name,
+            self.teacher.first_lastname,
+        )
+        return text
+
+####################################
+#### DATOS BANCARIOS Y RECIBOS #####
+####################################
+
+class Salary_Receipt(models.Model):
+    
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
+    receipt_file = models.FileField('Documentos/Certificados', upload_to='documentos/recibos', null=True, blank=True)
+    created_date = models.DateField('Fecha de registro', auto_now=False, auto_now_add=False, blank=True, null=True)
+    MONTH_CHOICES = [
+        ('1', 'Enero'),
+        ('2', 'Febrero'),
+        ('3', 'Marzo'),
+        ('4', 'Abril'),
+        ('5', 'Mayo'),
+        ('6', 'Junio'),
+        ('7', 'Julio'),
+        ('8', 'Agosto'),
+        ('9', 'Septiembre'),
+        ('10', 'Octubre'),
+        ('11', 'Noviembre'),
+        ('12', 'Diciembre'),
+    ]
+    receipt_month = models.CharField(
+        'Mes de recibo',
+        max_length=2,
+        choices = MONTH_CHOICES,
+        default='1',
+        )
+
+    class Meta:
+        verbose_name = 'Recibo de haber'
+        verbose_name_plural = 'Recibos de haberes'
+
+    def __str__(self):
+        text = '{} - {} {} - {} {}'.format(
+            self.id,
+            self.teacher.first_name,
+            self.teacher.first_lastname,
+            self.created_date,
+            self.receipt_month,
+        )
+        return text
+
+class Bank_Account (models.Model):
+    
+    cbu = models.CharField('CBU', max_length=22, unique=True)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
+    bank = models.ForeignKey('administracion.Bank', on_delete=models.CASCADE, verbose_name='Banco')
+    account_number = models.CharField('Nro de cuenta', max_length=22, null=True, blank=True)
+    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
+    state = models.BooleanField('Vigente', max_length=1, default=True)
+
+    class Meta:
+        verbose_name = 'Cuenta_Banco'
+        verbose_name_plural = 'Cuentas_Bancos'
+
+    def __str__(self):
+        text = '{} {} - {} - {}'.format(
+            self.teacher.first_name,
+            self.teacher.first_lastname,
+            self.bank.bank_name,
+            self.cbu,
+        )
+        return text
+
+####################################
+############# TITULOS  #############
+####################################
+
+class Degree(models.Model):
+    
+    degree_name = models.CharField('Título', max_length=40, unique=True)
+    created_date = models.DateField('Fecha de ingreso', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Título'
+        verbose_name_plural = 'Títulos'
+
+    def __str__(self):
+        text = '{} - {}'.format(
+            self.id,
+            self.degree_name,
+        )
+        return text
+
+class Teacher_Degree(models.Model):
+    
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
+    degree = models.ForeignKey('docentes.Degree', on_delete=models.CASCADE, verbose_name='Título')
+    file = models.FileField('Foto/Escaneo de Título', upload_to='documentos/titulos', null=True, blank=True)
+    graduated_date = models.DateField('Fecha de graduación', auto_now=False, auto_now_add=False, blank=True, null=True)
+    institution = models.CharField('Otorgado por', max_length=30, blank=True, null=True)
+    created_date = models.DateField('Fecha de registro', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Docente_Titulo'
+        verbose_name_plural = 'Docentes_Titulos'
+
+    def __str__(self):
+        text = '{} - {} {}'.format(
+            self.id,
             self.teacher.first_name,
             self.teacher.first_lastname,
         )

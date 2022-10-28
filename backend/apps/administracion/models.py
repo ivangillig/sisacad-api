@@ -293,3 +293,21 @@ class Position (models.Model):
             self.category.name
         )
         return text
+
+##############################################
+
+class Bank(models.Model):
+    
+    bank_name = models.CharField('Nombre de banco', max_length=40, unique=True)
+    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Banco'
+        verbose_name_plural = 'Bancos'
+
+    def __str__(self):
+        text = '{} - {}'.format(
+            self.id,
+            self.bank_name,
+        )
+        return text
