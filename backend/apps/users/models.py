@@ -41,12 +41,12 @@ class Role(models.Model):
 
 class Person(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    doc_number = models.CharField('DNI', max_length=13, unique=True)
     role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Rol')
     first_name = models.CharField('Primer nombre', max_length=15)
     middle_name = models.CharField('Segundo nombre', max_length=15, blank=True, null=True)
     first_lastname = models.CharField('Primer apellido', max_length=15)
     second_lastname = models.CharField('Segundo apellido', max_length=15, blank=True, null=True)
-    doc_number = models.CharField('DNI', max_length=13)
     personal_email = models.EmailField('Email personal', max_length=40, blank=True, null=True)
     birthday = models.DateField('Fecha de nacimiento', blank=True, null=True)
     birth_place = models.CharField('Lugar de nacimiento', max_length=15, blank=True, null=True)
@@ -78,6 +78,7 @@ class Person(models.Model):
         max_length=20,
         choices = STATE_CHOICES,
         default='No aplica',
+        null=True,
         )
     created_date = models.DateField('Fecha de alta')
 

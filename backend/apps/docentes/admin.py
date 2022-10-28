@@ -92,3 +92,4 @@ class Teacher_DegreeAdmin(admin.ModelAdmin):
         return obj.institution
 
 admin.site.register(Teacher_Degree, Teacher_DegreeAdmin)
+admin.site.register(Disponibility)

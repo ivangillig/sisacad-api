@@ -1,8 +1,10 @@
-from pyexpat import model
-from unittest.util import _MAX_LENGTH
-from django.db import models
+#from pyexpat import model
 
+from django.db import models
 from apps.users.models import Person
+from apps.base.models import BaseModel
+
+from simple_history.models import HistoricalRecords
 
 # Create your models here.
 class Teacher(Person):
@@ -283,6 +285,47 @@ class Teacher_Degree(models.Model):
     class Meta:
         verbose_name = 'Docente_Titulo'
         verbose_name_plural = 'Docentes_Titulos'
+
+    def __str__(self):
+        text = '{} - {} {}'.format(
+            self.id,
+            self.teacher.first_name,
+            self.teacher.first_lastname,
+        )
+        return text
+
+
+class Disponibility (BaseModel):
+    
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
+    DAY_CHOICES = [
+        ('1', 'Lunes'),
+        ('2', 'Martes'),
+        ('3', 'Miercoles'),
+        ('4', 'Jueves'),
+        ('5', 'Viernes'),
+    ]
+    week_day = models.CharField(
+        'Día de la semana',
+        max_length=1,
+        choices = DAY_CHOICES,
+        default='1',
+        )
+    init_time = models.TimeField('Hora inicio', auto_now=False, auto_now_add=False, blank=True, null=True)
+    end_time = models.TimeField('Hora fin', auto_now=False, auto_now_add=False, blank=True, null=True)
+    historical = HistoricalRecords()
+
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self, value):
+        self.changed_by = value
+
+    class Meta:
+        verbose_name = 'Disponibilidad horaria'
+        verbose_name_plural = 'Disponibilidad horaria'
 
     def __str__(self):
         text = '{} - {} {}'.format(

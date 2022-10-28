@@ -9,6 +9,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 
+
 class Subject(models.Model):
 
     name = models.CharField('Nombre de materia', max_length=30, unique=True)
