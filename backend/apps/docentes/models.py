@@ -54,7 +54,7 @@ class Teacher_Documents(models.Model):
     
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
     documents = models.ForeignKey('administracion.Documents', on_delete=models.CASCADE, verbose_name='Documentación')
-    file = models.FileField('Documento', upload_to='documentos/alumnos/%Y')
+    file = models.FileField('Documento', upload_to='documentos/alumnos/%Y', null=True)
     created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
 
     class Meta:
@@ -104,5 +104,46 @@ class Position_Teacher(models.Model):
             self.teacher.first_name,
             self.teacher.first_lastname,
             self.position_type
+        )
+        return text
+
+################################
+
+class License(models.Model):
+    
+    license_type = models.CharField('Tipo de licencia', max_length=30, blank=True, null=True, unique=True)
+    created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Licencia'
+        verbose_name_plural = 'Licencias'
+
+    def __str__(self):
+        text = '{} - {}'.format(
+            self.id,
+            self.license_type,
+        )
+        return text
+
+class Teacher_License(models.Model):
+    
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
+    license = models.ForeignKey('docentes.License', on_delete=models.CASCADE, verbose_name='Licencia')
+    file = models.FileField('Documentos/Certificados', upload_to='documentos/licencias', null=True, blank=True)
+    created_date = models.DateField('Fecha de registro', auto_now=False, auto_now_add=False, blank=True, null=True)
+    is_paid = models.BooleanField('Con goce de sueldo', max_length=150, default=False)
+    license_from = models.DateField('Licencia desde', auto_now=False, auto_now_add=False, blank=True, null=True)
+    license_to = models.DateField('Licencia hasta', auto_now=False, auto_now_add=False, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Docente_Licencia'
+        verbose_name_plural = 'Docentes_Licencias'
+
+    def __str__(self):
+        text = '{} - {} - {} {}'.format(
+            self.id,
+            self.license.license_type,
+            self.teacher.first_name,
+            self.teacher.first_lastname,
         )
         return text

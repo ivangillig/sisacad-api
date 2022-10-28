@@ -69,7 +69,7 @@ class Division(models.Model):
         )
         return text
 
-class Level(models.Model): ## Level o Grade ???
+class Level(models.Model): 
     
     #docente = models.ForeignKey(Docente, related_name='docente', on_delete=models.CASCADE, null=True)
     name = models.CharField('Nombre', max_length=30, unique=True)

@@ -42,3 +42,18 @@ class Position_TeacherAdmin(admin.ModelAdmin):
     teacher_lastname.short_description = 'Apellido Docente'
 
 admin.site.register(Position_Teacher, Position_TeacherAdmin)
+
+admin.site.register(License)
+
+class Teacher_LicenseAdmin(admin.ModelAdmin):
+    model = Teacher, License
+
+    list_display = ( 'teacher', 'license', 'license_from', 'license_to')
+
+    def teacher(self,obj):
+        return obj.teacher
+
+    def license(self,obj):
+        return obj.license
+
+admin.site.register(Teacher_License, Teacher_LicenseAdmin)
