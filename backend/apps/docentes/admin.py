@@ -102,4 +102,4 @@ class DisponibilityHistoryAdmin (SimpleHistoryAdmin):
     def teacher(self,obj):
         return obj.teacher
 
-admin.site.register(Disponibility, SimpleHistoryAdmin)
+admin.site.register(Disponibility, DisponibilityHistoryAdmin)

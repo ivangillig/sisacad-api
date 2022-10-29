@@ -295,6 +295,10 @@ class Teacher_Degree(models.Model):
         return text
 
 
+####################################
+########## Disponibilidad ##########
+####################################
+
 class Disponibility (BaseModel):
     
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
