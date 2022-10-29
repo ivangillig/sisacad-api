@@ -3,6 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from apps.docentes.models import *
 from apps.administracion.models import Bank, Position
+from simple_history.admin import SimpleHistoryAdmin
 
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ('doc_number', 'first_lastname', 'first_name')
@@ -92,4 +93,13 @@ class Teacher_DegreeAdmin(admin.ModelAdmin):
         return obj.institution
 
 admin.site.register(Teacher_Degree, Teacher_DegreeAdmin)
-admin.site.register(Disponibility)
+
+
+class DisponibilityHistoryAdmin (SimpleHistoryAdmin):
+    list_display = ['teacher', 'state', 'init_time', 'end_time']
+    history_list_display = ['state']
+
+    def teacher(self,obj):
+        return obj.teacher
+
+admin.site.register(Disponibility, SimpleHistoryAdmin)
