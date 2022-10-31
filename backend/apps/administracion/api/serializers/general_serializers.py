@@ -1,4 +1,4 @@
-from apps.administracion.models import Course, Level, Speciality
+from apps.administracion.models import Course, Level, Speciality, Position, Category
 from apps.users.models import  Role
 from rest_framework import serializers
 
@@ -29,3 +29,13 @@ class SpecialitySerializer(serializers.ModelSerializer):
         model = Speciality
         fields = ('id', 'name', 'state') #, 'created_by'
         #exclude = ('state',)
+
+class CategorySerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        exclude = ('created_date', 'deleted_date', 'state',)
+
+class PositionSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Position
+        exclude = ('created_date', 'deleted_date', 'place_number2')

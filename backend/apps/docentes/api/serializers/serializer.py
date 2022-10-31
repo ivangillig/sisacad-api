@@ -10,3 +10,10 @@ class Bank_AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bank_Account
         fields = '__all__'
+
+    def to_representation(self, instance):
+        return {
+            'id': instance['id'],
+            'cbu': instance['cbu'],
+            'teacher': instance['teacher'],
+            } 

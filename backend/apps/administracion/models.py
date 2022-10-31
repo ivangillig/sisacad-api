@@ -8,8 +8,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
 
-
-
 class Subject(models.Model):
 
     name = models.CharField('Nombre de materia', max_length=30, unique=True)
@@ -262,6 +260,7 @@ class Category (models.Model):
     name = models.CharField('Nombre', max_length=50, unique=True)
     created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
     deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
+    state = models.BooleanField('Estado', default=True)
 
     class Meta:
         verbose_name = 'Categoría'
@@ -282,6 +281,7 @@ class Position (models.Model):
     hours_qty = models.IntegerField('Cantidad de horas', blank=True, null=True)
     created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
     deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
+    state = models.BooleanField('Estado', default=True)
 
     class Meta:
         verbose_name = 'Cargo'
