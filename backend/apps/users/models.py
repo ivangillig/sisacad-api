@@ -12,7 +12,7 @@ class User(AbstractUser):
 
     """User model."""
 
-    username = None
+    username = models.CharField(max_length=50, null=True)
     first_name = None
     last_name = None
     email = models.EmailField(('Email institucional'), unique=True)

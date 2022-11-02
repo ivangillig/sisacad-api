@@ -59,6 +59,7 @@ BASE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites', #agregado
 ]
 
 LOCAL_APPS = [
@@ -66,18 +67,34 @@ LOCAL_APPS = [
     'apps.administracion',
     'apps.alumnos',
     'apps.docentes',
-    'apps.base'
+    'apps.base',
 ]
 
 THIRD_APPS = [
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
     'corsheaders',
     'django_countries',
     'simple_history',
     'drf_yasg',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
+
+SITE_ID = 1
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', #added
@@ -155,7 +172,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-AR'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Argentina/Ushuaia'
 
 USE_I18N = True
 
@@ -185,3 +202,20 @@ LOGOUT_REDIRECT_URL = "home"
 SWAGGER_SETTINGS = {
     'DOC_EXPANSION': 'none'
 }
+
+
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNSERNAME_REQUIRED = False
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
