@@ -74,6 +74,7 @@ THIRD_APPS = [
     'corsheaders',
     'django_countries',
     'simple_history',
+    'drf_yasg',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -180,3 +181,7 @@ AUTH_USER_MODEL = 'users.User'
 ## AGREGADO
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+SWAGGER_SETTINGS = {
+    'DOC_EXPANSION': 'none'
+}
