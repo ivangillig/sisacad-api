@@ -1,6 +1,4 @@
 from django.db import models
-
-from apps.docentes.models import Position_Teacher
 from apps.users.models import Role
 
 #aux
@@ -225,35 +223,6 @@ class Course_Student(models.Model):
         )
         return text
 
-class Course_Subject(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Curso')
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name='Materia')
-    position_teacher = models.ForeignKey(Position_Teacher, on_delete=models.CASCADE, verbose_name='Cargo_Docente')
-    created_date = models.DateField('Fecha de alta', blank=True, null=True)
-    leaving_date = models.DateField('Fecha de baja', blank=True, null=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['course', 'subject'], name='course_subject_combination'
-            )
-        ]
-        verbose_name = 'Curso_Materia'
-        verbose_name_plural = 'Cursos_Materias'
-
-    def __str__(self):
-        text = '{} {} {} - {} - {} {}'.format(
-            self.course.grade.name,
-            self.course.grade.division.name,
-            self.course.academic_year,
-            self.subject.name,
-            self.position_teacher.teacher.first_name,
-            self.position_teacher.teacher.first_lastname,
-        )
-        return text
-
-
-
 class Category (models.Model):
     
     category_id = models.IntegerField('Código de categoría', primary_key=True)
@@ -295,6 +264,45 @@ class Position (models.Model):
         )
         return text
 
+
+class Position_Teacher(models.Model):
+    
+    teacher = models.ForeignKey('docentes.Teacher', on_delete=models.CASCADE, verbose_name='Docente', null=True)
+    position = models.ForeignKey('administracion.Position', on_delete=models.CASCADE, verbose_name='Cargo')
+    POSITION_TYPE_CHOICES = [
+        ('Titular', 'Titular'),
+        ('Suplente', 'Suplente'),
+    ]
+    position_type = models.CharField(
+        'Tipo de cargo',
+        max_length=8,
+        choices = POSITION_TYPE_CHOICES,
+        default='Vacante',
+        )
+    condition = models.CharField('Situación', max_length=15, blank=True, null=True)
+    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
+    deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
+    delete_motive = models.CharField('Motivo de baja', max_length=150, blank=True, null=True)
+    state = models.BooleanField('Estado', default=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['position', 'position_type'], name='position_type_combination'
+            )
+        ]
+        verbose_name = 'Cargo_Docente'
+        verbose_name_plural = 'Cargos_Docentes'
+
+    def __str__(self):
+        text = '{} - {} {} - {}'.format(
+            self.position.place_number1,
+            self.teacher.first_name,
+            self.teacher.first_lastname,
+            self.position_type
+        )
+        return text
+
 ##############################################
 
 class Bank(models.Model):
@@ -310,5 +318,35 @@ class Bank(models.Model):
         text = '{} - {}'.format(
             self.id,
             self.bank_name,
+        )
+        return text
+
+
+#################################
+
+class Course_Subject(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Curso')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name='Materia')
+    position_teacher = models.ForeignKey(Position_Teacher, on_delete=models.CASCADE, verbose_name='Cargo_Docente')
+    created_date = models.DateField('Fecha de alta', blank=True, null=True)
+    leaving_date = models.DateField('Fecha de baja', blank=True, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['course', 'subject'], name='course_subject_combination'
+            )
+        ]
+        verbose_name = 'Curso_Materia'
+        verbose_name_plural = 'Cursos_Materias'
+
+    def __str__(self):
+        text = '{} {} {} - {} - {} {}'.format(
+            self.course.grade.name,
+            self.course.grade.division.name,
+            self.course.academic_year,
+            self.subject.name,
+            self.position_teacher.teacher.first_name,
+            self.position_teacher.teacher.first_lastname,
         )
         return text

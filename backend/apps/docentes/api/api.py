@@ -62,3 +62,4 @@ def bank_account_detail_view(request, pk):
             return Response({'message': 'Cuenta eliminada correctamente!'}, status = status.HTTP_200_OK)
 
     return Response({'message': 'No se ha encontrado una cuenta con estos datos'}, status = status.HTTP_400_BAD_REQUEST)
+

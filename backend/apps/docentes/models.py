@@ -73,43 +73,6 @@ class Teacher_Documents(models.Model):
         )
         return text
 
-class Position_Teacher(models.Model):
-    
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
-    position = models.ForeignKey('administracion.Position', on_delete=models.CASCADE, verbose_name='Cargo')
-    POSITION_TYPE_CHOICES = [
-        ('Titular', 'Titular'),
-        ('Suplente', 'Suplente'),
-    ]
-    position_type = models.CharField(
-        'Tipo de cargo',
-        max_length=8,
-        choices = POSITION_TYPE_CHOICES,
-        default='Titular',
-        )
-    condition = models.CharField('Situación', max_length=15, blank=True, null=True)
-    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
-    deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
-    delete_motive = models.CharField('Motivo de baja', max_length=150, blank=True, null=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['position', 'position_type'], name='position_type_combination'
-            )
-        ]
-        verbose_name = 'Cargo_Docente'
-        verbose_name_plural = 'Cargos_Docentes'
-
-    def __str__(self):
-        text = '{} - {} {} - {}'.format(
-            self.position.place_number1,
-            self.teacher.first_name,
-            self.teacher.first_lastname,
-            self.position_type
-        )
-        return text
-
 ####################################
 ###### LICENCIAS Y PERMISOS ########
 ####################################
