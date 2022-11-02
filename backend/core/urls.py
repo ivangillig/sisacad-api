@@ -28,8 +28,10 @@ urlpatterns = [
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('', include('apps.docentes.api.urls')),
     path('admin/', admin.site.urls),
-    path('auth/', include('rest_auth.urls')),
-    path('auth/registration/', include('rest_auth.registration.urls')),
     path('', include('apps.administracion.api.routers')),
+    path('auth/', include('dj_rest_auth.urls')),
+    path('auth/registration/', include('dj_rest_auth.registration.urls'))
+    #path('auth/', include('rest_auth.urls')),
+    #path('auth/registration/', include('rest_auth.registration.urls')),
     #path('', include('apps.alumnos.api.routers')),
 ]
