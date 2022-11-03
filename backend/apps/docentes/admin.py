@@ -40,6 +40,8 @@ class Teacher_LicenseAdmin(admin.ModelAdmin):
         return obj.license
 
 
+admin.site.register(Teacher_License, Teacher_LicenseAdmin)
+
 class Bank_AccountAdmin(admin.ModelAdmin):
     model = Teacher, Bank
 
