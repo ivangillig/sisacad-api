@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from apps.docentes.models import *
-from apps.administracion.models import Bank
+from apps.administracion.models import Bank, Documents
 from simple_history.admin import SimpleHistoryAdmin
 
 class TeacherAdmin(admin.ModelAdmin):
@@ -10,7 +10,20 @@ class TeacherAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Teacher, TeacherAdmin)
-admin.site.register(Teacher_Documents)
+
+class Teacher_DocumentsAdmin(admin.ModelAdmin):
+    model = Teacher, Documents
+
+    list_display = ( 'teacher', 'documents', 'file', 'created_date')
+
+    def teacher(self,obj):
+        return obj.teacher
+
+    def documents(self,obj):
+        return obj.documents
+
+
+admin.site.register(Teacher_Documents, Teacher_DocumentsAdmin)
 admin.site.register(Salary_Receipt)
 
 admin.site.register(License)

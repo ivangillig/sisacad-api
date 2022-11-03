@@ -68,8 +68,8 @@ class Teacher_Documents(models.Model):
         text = '{} - {} - {} {}'.format(
             self.id,
             self.documents.document_type,
-            self.student.first_name,
-            self.student.first_lastname,
+            self.teacher.first_name,
+            self.teacher.first_lastname,
         )
         return text
 

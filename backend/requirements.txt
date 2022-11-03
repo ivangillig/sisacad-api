@@ -1,7 +1,7 @@
 #Para instalar todos los paquees pip: -r requirements.txt
 django
 django-admin
-dj-rest-auth
+dj_rest_auth
 django-allauth
 psycopg2
 pillow
