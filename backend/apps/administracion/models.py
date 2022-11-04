@@ -203,6 +203,19 @@ class Course_Student(models.Model):
     student = models.ForeignKey('alumnos.Student', on_delete=models.CASCADE, verbose_name='Alumno')
     created_date = models.DateField('Fecha de alta', blank=True, null=True)
     leaving_date = models.DateField('Fecha de baja', blank=True, null=True)
+    LEAVING_MOTIVE_CHOICES = [
+        ('Finalización de año', 'Finalización de año'),
+        ('Pase', 'Pase'),
+        ('Fallecimiento', 'Fallecimiento'),
+    ]
+    leaving_motive = models.CharField(
+        'Motivo de baja',
+        max_length=30,
+        choices = LEAVING_MOTIVE_CHOICES,
+        default='Finalización de año',
+        null=True,
+        blank=True,
+        )
 
     class Meta:
         constraints = [

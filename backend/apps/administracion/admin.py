@@ -18,14 +18,14 @@ admin.site.register(Position, PositionAdmin)
 class GradeAdmin(admin.ModelAdmin):
     model = Category
 
-    list_display = ( 'id', 'name', 'level_name', 'division_name', 'speciality_name')
+    list_display = ( 'id', 'name', 'level_name', 'division_name') #'speciality_name')
     
     def level_name(self,obj):
         return obj.level.name
     def division_name(self,obj):
         return obj.division.name 
-    def speciality_name(self,obj):
-        return obj.speciality.name
+    #def speciality_name(self,obj):
+    #    return obj.speciality.name 
 
 admin.site.register(Grade, GradeAdmin)
 
