@@ -6,6 +6,6 @@ class StudentSerializer(serializers.ModelSerializer):
     #dni = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Student
-        fields = ('doc_number', 'firstname', 'middlename', 'first_lastname')
+        fields = ('id', 'doc_number', 'first_name', 'middle_name', 'first_lastname', 'birthday', 'gender')
         read_only_fields = ('admission_date', )
         #fields = '__all__'
