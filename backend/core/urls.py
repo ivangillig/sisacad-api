@@ -29,7 +29,7 @@ urlpatterns = [
     path('', include('apps.docentes.api.urls')),
     path('admin/', admin.site.urls),
     path('', include('apps.administracion.api.routers')),
-    path('api/auth/', include('dj_rest_auth.urls')),
+    path('auth/', include('dj_rest_auth.urls')),
     path('auth/registration/', include('dj_rest_auth.registration.urls'))
     #path('', include('apps.alumnos.api.routers')),
 ]
