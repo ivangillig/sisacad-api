@@ -1,6 +1,6 @@
 # Sistema Académico
 
-Backend de pruena para el trabajo final
+Backend para el trabajo final
 
 ## Project Setup
 
@@ -11,7 +11,7 @@ sudo docker-compose up
 ### Panel de admin
 
 ```sh
-user: admin
+user: admin@admin.com
 pass: admin
 ```
 
