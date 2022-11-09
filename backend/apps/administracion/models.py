@@ -5,6 +5,9 @@ from apps.users.models import Role
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
+####################################
+############# MATERIAS #############
+####################################
 
 class Subject(models.Model):
 
@@ -39,6 +42,9 @@ class Documents(models.Model):
         return text
 
 
+####################################
+#### ATRIBUTOS DEL AÑO LECTIVO #####
+####################################
 
 class Division(models.Model):
     
@@ -164,6 +170,11 @@ def current_year():
 def max_value_current_year(value):
         return MaxValueValidator(current_year())(value)  
 
+
+####################################
+####### CURSO Y ESTUDIANTES ########
+####################################
+
 class Course(models.Model):
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, verbose_name='Año')
     academic_year = models.IntegerField('Año lectivo', validators=[MinValueValidator(1984), max_value_current_year])
@@ -235,6 +246,10 @@ class Course_Student(models.Model):
             self.student.first_name,
         )
         return text
+
+####################################
+### CARGOS DOCENTES / CATEGORIAS ###
+####################################
 
 class Category (models.Model):
     
@@ -316,7 +331,9 @@ class Position_Teacher(models.Model):
         )
         return text
 
-##############################################
+####################################
+########## INFO BANCARIA ###########
+####################################
 
 class Bank(models.Model):
     
@@ -335,7 +352,7 @@ class Bank(models.Model):
         return text
 
 
-#################################
+###################################
 
 class Course_Subject(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Curso')

@@ -6,6 +6,10 @@ from apps.base.models import BaseModel
 
 from simple_history.models import HistoricalRecords
 
+####################################
+######## DATOS PERSONALES  #########
+####################################
+
 # Create your models here.
 class Teacher(Person):
     
