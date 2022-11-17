@@ -3,9 +3,9 @@ django
 django-admin
 dj_rest_auth
 django-allauth
-psycopg2
+psycopg2-binary
 pillow
-djangorestframework
+django-rest-framework
 django-cors-headers
 django-countries[pyuca]
 django-simple-history

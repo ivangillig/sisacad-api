@@ -35,19 +35,22 @@ DEBUG = True
 #Agregado de / automático
 APPEND_SLASH = False
 
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'http://10.0.2.15:8080',
-    'http://192.168.0.21:8080'
+    'http://192.168.0.24:8080'
 ]
 
-CSRF_COOKIE_HTTPONLY = True
-SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SECURE = False
+#CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = False
+#CSRF_COOKIE_SAMESITE = 'None'
+#CSRF_TRUSTED_ORIGINS = ['http://localhost:8000','https://*.127.0.0.1']
 
-SESSION_COOKIE_SAMESITE = 'None'
-CSRF_COOKIE_SAMESITE = 'None'
+#SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = False
+#SESSION_COOKIE_SAMESITE = 'None'
 
 # Application definition
 
@@ -109,7 +112,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware', HABILITAR DE NUEVO
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
