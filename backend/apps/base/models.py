@@ -18,5 +18,3 @@ class BaseModel(models.Model):
         verbose_name = 'BaseModel'
         verbose_name_plural = 'BaseModels'
 
-
-##test de credenciales
