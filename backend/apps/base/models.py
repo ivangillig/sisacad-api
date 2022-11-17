@@ -17,3 +17,6 @@ class BaseModel(models.Model):
         abstract = True
         verbose_name = 'BaseModel'
         verbose_name_plural = 'BaseModels'
+
+
+##test de credenciales
