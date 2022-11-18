@@ -3,6 +3,7 @@ from operator import methodcaller
 from django.db import models
 from django.conf import settings
 from apps.users.models import Person
+from apps.base.models import BaseModel
 
 # Create your models here.
 class Student(Person):
@@ -14,7 +15,7 @@ class Student(Person):
     observations = models.TextField('Observaciones', max_length=200, blank=True, null=True)
     school_cert_destinty = models.CharField('Destino de certificado escolar', max_length=30, blank=True, null=True)
     admission_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
-    leaving_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
+    leaving_date = models.DateField('Fecha de egreso', auto_now=False, auto_now_add=False, blank=True, null=True)
     trips_auth = models.BooleanField('Autorización de paseos', default=False)
     medical_auth = models.BooleanField('Autorización médica', default=False)
     leave_auth = models.BooleanField('Autorización de salida', default=False)
@@ -48,7 +49,7 @@ class Tutor(Person):
         )
         return text
 
-class Student_Tutor(models.Model):
+class Student_Tutor(BaseModel):
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Alumno')
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
@@ -80,7 +81,7 @@ class Student_Tutor(models.Model):
         )
         return text
 
-class Withdraw_Authorized(models.Model):
+class Withdraw_Authorized(BaseModel):
 
     doc_number = models.CharField('DNI', max_length=15, primary_key=True, unique=True)
     name = models.CharField('Nombre', max_length=15, blank=True, null=True)
@@ -98,7 +99,7 @@ class Withdraw_Authorized(models.Model):
         )
         return text
 
-class Student_Withdraw_Authorized(models.Model):
+class Student_Withdraw_Authorized(BaseModel):
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Alumno')
     withdraw_authorized = models.ForeignKey(Withdraw_Authorized, on_delete=models.CASCADE, verbose_name='Autorizado a retiro')
@@ -133,7 +134,7 @@ class Student_Withdraw_Authorized(models.Model):
         )
         return text
 
-class Payment(models.Model):
+class Payment(BaseModel):
 
     PAYMENT_CHOICES = [
         ('1', 'Cuota mensual'),
@@ -173,7 +174,7 @@ class Payment(models.Model):
         )
         return text
 
-class Payment_Student (models.Model):
+class Payment_Student (BaseModel):
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Alumno')
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE, verbose_name='Pago')
@@ -196,12 +197,11 @@ class Payment_Student (models.Model):
         )
         return text
 
-class Student_Documents (models.Model):
+class Student_Documents (BaseModel):
 
     student = models.ForeignKey('alumnos.Student', on_delete=models.CASCADE, verbose_name='Alumno')
     documents = models.ForeignKey('administracion.Documents', on_delete=models.CASCADE, verbose_name='Documentación')
     file = models.FileField('Documento', upload_to='documentos/alumnos/%Y')
-    created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Alumno_Documento'

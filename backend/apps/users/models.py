@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
+from apps.base.models import BaseModel
 
 from .managers import UserManager
 
@@ -17,6 +18,15 @@ class User(AbstractUser):
     last_name = None
     email = models.EmailField(('Email institucional'), unique=True)
 
+    class Role(models.TextChoices):
+        ADMIN = "ADMIN", 'Admin'
+        STUDENT = "ALUMNO", "Alumno"
+        TEACHER = "DOCENTE", "Docente"
+        TUTOR = "TUTOR", "Tutor"
+
+    #base_role = Role.ADMIN
+    role = models.CharField(max_length=50, choices=Role.choices)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [] #asked in console
 
@@ -28,21 +38,9 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
-
-class Role(models.Model):
-    
-    name = models.CharField('Nombre', max_length=30)
-
-    def __str__(self):
-        texto = '{}'.format(
-            self.name,
-        )
-        return texto
-
-class Person(models.Model):
+class Person(BaseModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     doc_number = models.CharField('DNI', max_length=13, unique=True)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Rol')
     first_name = models.CharField('Primer nombre', max_length=15)
     middle_name = models.CharField('Segundo nombre', max_length=15, blank=True, null=True)
     first_lastname = models.CharField('Primer apellido', max_length=15)
@@ -80,7 +78,6 @@ class Person(models.Model):
         default='No aplica',
         null=True,
         )
-    created_date = models.DateField('Fecha de alta')
 
     class Meta:
         verbose_name = 'Persona'

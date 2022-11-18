@@ -1,5 +1,5 @@
 from django.db import models
-from apps.users.models import Role
+from apps.base.models import BaseModel
 
 #aux
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -9,11 +9,9 @@ from django.utils.translation import gettext_lazy as _
 ############# MATERIAS #############
 ####################################
 
-class Subject(models.Model):
+class Subject(BaseModel):
 
     name = models.CharField('Nombre de materia', max_length=30, unique=True)
-    created_date = models.DateField('Fecha de creación')
-    deleted_date = models.DateField('Fecha de eliminación', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Materia'
@@ -26,10 +24,10 @@ class Subject(models.Model):
         )
         return text
 
-class Documents(models.Model):
+class Documents(BaseModel):
     
     document_type = models.CharField('Tipo de documento', max_length=30, unique=True)
-    role = models.ForeignKey("users.Role", verbose_name=_("Usuarios"), on_delete=models.CASCADE, null=True)
+    #role = models.ForeignKey("User.role", verbose_name=_("Usuarios"), on_delete=models.CASCADE, null=True)
     
     class Meta:
         verbose_name = 'Documento'
@@ -46,20 +44,9 @@ class Documents(models.Model):
 #### ATRIBUTOS DEL AÑO LECTIVO #####
 ####################################
 
-class Division(models.Model):
+class Division(BaseModel):
     
     name = models.CharField('Nombre', max_length=15, unique=True)
-    STATE_CHOICES = [
-        ('Activo', 'Activo'),
-        ('Inactivo', 'Inactivo'),
-    ]
-    state = models.CharField(
-        'Estado', 
-        max_length=8,
-        choices = STATE_CHOICES,
-        default='Activo',
-        )
-    created_date = models.DateField('Fecha de creación', auto_now_add=True)
 
     class Meta:
         verbose_name = 'División'
@@ -72,21 +59,10 @@ class Division(models.Model):
         )
         return text
 
-class Level(models.Model): 
+class Level(BaseModel): 
     
     #docente = models.ForeignKey(Docente, related_name='docente', on_delete=models.CASCADE, null=True)
     name = models.CharField('Nombre', max_length=30, unique=True)
-    STATE_CHOICES = [
-        ('Activo', 'Activo'),
-        ('Inactivo', 'Inactivo'),
-    ]
-    state = models.CharField(
-        'Estado',
-        max_length=8,
-        choices = STATE_CHOICES,
-        default='Activo',
-        )
-    created_date = models.DateField('Fecha de creación', auto_now_add=True)
 
     class Meta:
         verbose_name = 'Nivel'
@@ -99,22 +75,9 @@ class Level(models.Model):
         )
         return text
 
-class Speciality(models.Model):
+class Speciality(BaseModel):
     
     name = models.CharField('Nombre', max_length=30, unique=True)
-    STATE_CHOICES = [
-        ('Activo', 'Activo'),
-        ('Inactivo', 'Inactivo'),
-        ('N/A', 'N/A'),
-    ]
-    state = models.CharField(
-        'Estado',
-        max_length=8,
-        choices = STATE_CHOICES,
-        default='N/A',
-        )
-    created_date = models.DateField('Fecha de alta', blank=True, null=True)
-    leaving_date = models.DateField('Fecha de baja', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Modalidad'
@@ -128,22 +91,12 @@ class Speciality(models.Model):
         )
         return text
 
-class Grade(models.Model):
+class Grade(BaseModel):
     
     level = models.ForeignKey(Level, on_delete=models.CASCADE, verbose_name='Nivel')
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, verbose_name='Modalidad', blank=True, null=True)
     division = models.ForeignKey(Division, on_delete=models.CASCADE, verbose_name='División', blank=True, null=True)
     name = models.CharField('Nombre', max_length=30)
-    STATE_CHOICES = [
-        ('Activo', 'Activo'),
-        ('Inactivo', 'Inactivo'),
-    ]
-    state = models.CharField(
-        'Estado',
-        max_length=8,
-        choices = STATE_CHOICES,
-        default='Activo',
-        )
 
     class Meta:
         constraints = [
@@ -175,7 +128,7 @@ def max_value_current_year(value):
 ####### CURSO Y ESTUDIANTES ########
 ####################################
 
-class Course(models.Model):
+class Course(BaseModel):
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, verbose_name='Año')
     academic_year = models.IntegerField('Año lectivo', validators=[MinValueValidator(1984), max_value_current_year])
 
@@ -209,11 +162,11 @@ class Course(models.Model):
         )
         return text
 
-class Course_Student(models.Model):
+class Course_Student(BaseModel):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Curso')
     student = models.ForeignKey('alumnos.Student', on_delete=models.CASCADE, verbose_name='Alumno')
-    created_date = models.DateField('Fecha de alta', blank=True, null=True)
-    leaving_date = models.DateField('Fecha de baja', blank=True, null=True)
+    add_date = models.DateField('Fecha de ingreso')
+    leaving_date = models.DateField('Fecha de salida', blank=True, null=True)
     LEAVING_MOTIVE_CHOICES = [
         ('Finalización de año', 'Finalización de año'),
         ('Pase', 'Pase'),
@@ -223,9 +176,9 @@ class Course_Student(models.Model):
         'Motivo de baja',
         max_length=30,
         choices = LEAVING_MOTIVE_CHOICES,
-        default='Finalización de año',
         null=True,
         blank=True,
+        #default='Finalización de año',
         )
 
     class Meta:
@@ -251,13 +204,10 @@ class Course_Student(models.Model):
 ### CARGOS DOCENTES / CATEGORIAS ###
 ####################################
 
-class Category (models.Model):
+class Category (BaseModel):
     
     category_id = models.IntegerField('Código de categoría', primary_key=True)
     name = models.CharField('Nombre', max_length=50, unique=True)
-    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
-    deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
-    state = models.BooleanField('Estado', default=True)
 
     class Meta:
         verbose_name = 'Categoría'
@@ -270,15 +220,12 @@ class Category (models.Model):
         )
         return text
 
-class Position (models.Model):
+class Position (BaseModel):
     
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Categoría')
     place_number1 = models.IntegerField('Nro de plaza 1', blank=True, null=True)
     place_number2 = models.IntegerField('Nro de plaza 2', blank=True, null=True)
     hours_qty = models.IntegerField('Cantidad de horas', blank=True, null=True)
-    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
-    deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
-    state = models.BooleanField('Estado', default=True)
 
     class Meta:
         verbose_name = 'Cargo'
@@ -293,7 +240,7 @@ class Position (models.Model):
         return text
 
 
-class Position_Teacher(models.Model):
+class Position_Teacher(BaseModel):
     
     teacher = models.ForeignKey('docentes.Teacher', on_delete=models.CASCADE, verbose_name='Docente', null=True)
     position = models.ForeignKey('administracion.Position', on_delete=models.CASCADE, verbose_name='Cargo')
@@ -308,10 +255,7 @@ class Position_Teacher(models.Model):
         default='Vacante',
         )
     condition = models.CharField('Situación', max_length=15, blank=True, null=True)
-    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
-    deleted_date = models.DateField('Fecha de baja', auto_now=False, auto_now_add=False, blank=True, null=True)
     delete_motive = models.CharField('Motivo de baja', max_length=150, blank=True, null=True)
-    state = models.BooleanField('Estado', default=True)
 
     class Meta:
         constraints = [
@@ -335,10 +279,9 @@ class Position_Teacher(models.Model):
 ########## INFO BANCARIA ###########
 ####################################
 
-class Bank(models.Model):
+class Bank(BaseModel):
     
     bank_name = models.CharField('Nombre de banco', max_length=40, unique=True)
-    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Banco'
@@ -358,8 +301,6 @@ class Course_Subject(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Curso')
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name='Materia')
     position_teacher = models.ForeignKey(Position_Teacher, on_delete=models.CASCADE, verbose_name='Cargo_Docente')
-    created_date = models.DateField('Fecha de alta', blank=True, null=True)
-    leaving_date = models.DateField('Fecha de baja', blank=True, null=True)
 
     class Meta:
         constraints = [

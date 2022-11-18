@@ -1,13 +1,5 @@
 from apps.administracion.models import Course, Level, Speciality, Position, Category
-from apps.users.models import  Role
 from rest_framework import serializers
-
-
-class RoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model: Role
-        fields = ('__all__')
-
 
 class CourseSerializer(serializers.ModelSerializer):
     #cursos = AlumnoSerializer(many=True)

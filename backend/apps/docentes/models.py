@@ -14,16 +14,6 @@ from simple_history.models import HistoricalRecords
 class Teacher(Person):
     
     cuil = models.CharField(max_length=15, blank=True, null=True)
-    STATE_CHOICES = [
-        ('Activo', 'Activo'),
-        ('Inactivo', 'Inactivo'),
-    ]
-    state = models.CharField(
-        'Estado',
-        max_length=10,
-        choices = STATE_CHOICES,
-        default='Activo',
-        )
     seniority_date = models.DateField('Fecha de antiguedad', blank=True, null=True)
     seniority_qty = models.IntegerField('Antiguedd reconocida', blank=True, null=True)
     STATISTICS_CHOICES = [
@@ -57,12 +47,11 @@ class Teacher(Person):
         )
         return text
 
-class Teacher_Documents(models.Model):
+class Teacher_Documents(BaseModel):
     
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
     documents = models.ForeignKey('administracion.Documents', on_delete=models.CASCADE, verbose_name='Documentación')
     file = models.FileField('Documento', upload_to='documentos/alumnos/%Y', null=True)
-    created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Docente_Documento'
@@ -81,10 +70,9 @@ class Teacher_Documents(models.Model):
 ###### LICENCIAS Y PERMISOS ########
 ####################################
 
-class License(models.Model):
+class License(BaseModel):
     
     license_type = models.CharField('Tipo de licencia', max_length=30, unique=True, null=True)
-    created_date = models.DateField('Fecha de ingreso', auto_now=False, auto_now_add=False, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Licencia'
@@ -97,12 +85,11 @@ class License(models.Model):
         )
         return text
 
-class Teacher_License(models.Model):
+class Teacher_License(BaseModel):
     
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
     license = models.ForeignKey('docentes.License', on_delete=models.CASCADE, verbose_name='Licencia')
     file = models.FileField('Documentos/Certificados', upload_to='documentos/licencias', null=True, blank=True)
-    created_date = models.DateField('Fecha de registro', auto_now=False, auto_now_add=False, blank=True, null=True)
     is_paid = models.BooleanField('Con goce de sueldo', max_length=150, default=False)
     license_from = models.DateField('Licencia desde', auto_now=False, auto_now_add=False, blank=True, null=True)
     license_to = models.DateField('Licencia hasta', auto_now=False, auto_now_add=False, blank=True, null=True)
@@ -120,9 +107,9 @@ class Teacher_License(models.Model):
         )
         return text
 
-class Permission_Request(models.Model):
+class Permission_Request(BaseModel):
     
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente', null=True)
     motive = models.CharField('Motivo del permiso', max_length=100)
     request_date = models.DateField('Fecha de solicitud', auto_now_add=True)
     permission_date = models.DateField('Fecha de salida', auto_now=False, auto_now_add=False, blank=True, null=True)
@@ -158,11 +145,10 @@ class Permission_Request(models.Model):
 #### DATOS BANCARIOS Y RECIBOS #####
 ####################################
 
-class Salary_Receipt(models.Model):
+class Salary_Receipt(BaseModel):
     
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
     receipt_file = models.FileField('Documentos/Certificados', upload_to='documentos/recibos', null=True, blank=True)
-    created_date = models.DateField('Fecha de registro', auto_now=False, auto_now_add=False, blank=True, null=True)
     MONTH_CHOICES = [
         ('1', 'Enero'),
         ('2', 'Febrero'),
@@ -198,14 +184,12 @@ class Salary_Receipt(models.Model):
         )
         return text
 
-class Bank_Account (models.Model):
+class Bank_Account (BaseModel):
     
     cbu = models.CharField('CBU', max_length=22, unique=True)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
     bank = models.ForeignKey('administracion.Bank', on_delete=models.CASCADE, verbose_name='Banco')
     account_number = models.CharField('Nro de cuenta', max_length=22, null=True, blank=True)
-    created_date = models.DateField('Fecha de alta', auto_now=False, auto_now_add=False, blank=True, null=True)
-    state = models.BooleanField('Vigente', max_length=1, default=True)
 
     class Meta:
         verbose_name = 'Cuenta_Banco'
@@ -224,10 +208,9 @@ class Bank_Account (models.Model):
 ############# TITULOS  #############
 ####################################
 
-class Degree(models.Model):
+class Degree(BaseModel):
     
     degree_name = models.CharField('Título', max_length=40, unique=True)
-    created_date = models.DateField('Fecha de ingreso', auto_now_add=True)
 
     class Meta:
         verbose_name = 'Título'
@@ -240,14 +223,13 @@ class Degree(models.Model):
         )
         return text
 
-class Teacher_Degree(models.Model):
+class Teacher_Degree(BaseModel):
     
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Docente')
     degree = models.ForeignKey('docentes.Degree', on_delete=models.CASCADE, verbose_name='Título')
     file = models.FileField('Foto/Escaneo de Título', upload_to='documentos/titulos', null=True, blank=True)
     graduated_date = models.DateField('Fecha de graduación', auto_now=False, auto_now_add=False, blank=True, null=True)
     institution = models.CharField('Otorgado por', max_length=30, blank=True, null=True)
-    created_date = models.DateField('Fecha de registro', auto_now_add=True)
 
     class Meta:
         verbose_name = 'Docente_Titulo'

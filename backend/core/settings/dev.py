@@ -62,7 +62,7 @@ BASE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites', #agregado
+    'django.contrib.sites', #added
 ]
 
 LOCAL_APPS = [
@@ -205,7 +205,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 
-## AGREGADO
+## added
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
@@ -229,3 +229,6 @@ AUTHENTICATION_BACKENDS = [
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+#put AR first in nationality list
+COUNTRIES_FIRST_SORT = True
+COUNTRIES_FIRST = {'AR', 'CL', 'BR'}

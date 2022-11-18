@@ -5,7 +5,6 @@ class BaseModel(models.Model):
     """Model definition for BaseModel."""
 
     # TODO: Define fields here
-    id = models.AutoField(primary_key=True)
     state = models.BooleanField('Estado', default=True)
     created_date = models.DateField('Fecha de creación', auto_now=False, auto_now_add=True)
     modified_date = models.DateField('Fecha de modificación', auto_now=True, auto_now_add=False)
@@ -17,5 +16,3 @@ class BaseModel(models.Model):
         abstract = True
         verbose_name = 'BaseModel'
         verbose_name_plural = 'BaseModels'
-
-#asdasdasd
