@@ -13,7 +13,7 @@ class User(AbstractUser):
 
     """User model."""
 
-    username = models.CharField(max_length=50, null=True)
+    username = None
     first_name = None
     last_name = None
     email = models.EmailField(('Email institucional'), unique=True)
@@ -39,7 +39,7 @@ class User(AbstractUser):
         return self.email
 
 class Person(BaseModel):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     doc_number = models.CharField('DNI', max_length=13, unique=True)
     first_name = models.CharField('Primer nombre', max_length=15)
     middle_name = models.CharField('Segundo nombre', max_length=15, blank=True, null=True)
