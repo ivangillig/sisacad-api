@@ -56,8 +56,6 @@ class Migration(migrations.Migration):
                 ('birth_place', models.CharField(blank=True, max_length=15, null=True, verbose_name='Lugar de nacimiento')),
                 ('nationality', django_countries.fields.CountryField(max_length=2, null=True, verbose_name='Nacionalidad')),
                 ('gender', models.CharField(choices=[('Masculino', 'Masculino'), ('Femenino', 'Femenino'), ('Sin genero', 'Sin genero'), ('Sin especificar', 'Sin especificar')], default='Sin especificar', max_length=20, verbose_name='Género')),
-                ('address', models.CharField(blank=True, max_length=15, null=True, verbose_name='Dirección')),
-                ('neighborhood', models.CharField(blank=True, max_length=15, null=True, verbose_name='Barrio')),
                 ('phone', models.CharField(blank=True, max_length=15, null=True, verbose_name='Nro de teléfono')),
                 ('marital_status', models.CharField(choices=[('Soltero', 'Soltero'), ('Casado', 'Casado'), ('Divorciado', 'Divorciado'), ('Viudo/a', 'Viudo/a'), ('No aplica', 'No aplica')], default='No aplica', max_length=20, null=True, verbose_name='Estado civil')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),

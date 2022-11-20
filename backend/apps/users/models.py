@@ -38,7 +38,34 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
-class Person(BaseModel):
+class Address(models.Model):
+    street = models.CharField('Calle', max_length=20, blank=True, null=True)
+    number = models.CharField('Número', max_length=4, blank=True, null=True)
+    floor = models.CharField('Piso', max_length=2, blank=True, null=True)
+    department = models.CharField('Departamento', max_length=2, blank=True, null=True)
+    address_state = models.CharField('Provincia', max_length=30, blank=True, null=True)
+    cp = models.CharField('Código Postal', max_length=6, blank=True, null=True)
+
+    class Meta:
+        """Meta definition for BaseModel."""
+
+        abstract = True
+        verbose_name = 'AddressModel'
+        verbose_name_plural = 'AddressModels'
+    # class Meta:
+    #     verbose_name = 'Dirección'
+    #     verbose_name_plural = 'Direcciones'
+    #     ordering = ['street']
+    
+    # def __str__(self):
+    #     texto = '{} - {} {}'.format(
+    #         self.person.doc_number,
+    #         self.street,
+    #         self.number,
+    #     )
+    #     return texto
+
+class Person(Address, BaseModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     doc_number = models.CharField('DNI', max_length=13, unique=True)
     first_name = models.CharField('Primer nombre', max_length=15)
@@ -50,10 +77,10 @@ class Person(BaseModel):
     birth_place = models.CharField('Lugar de nacimiento', max_length=15, blank=True, null=True)
     nationality = CountryField('Nacionalidad', blank_label='Selecciona un país', null=True)
     CHOICES_GENDER = [
-        ('Masculino', 'Masculino'),
-        ('Femenino', 'Femenino'),
-        ('Sin genero', 'Sin genero'),
-        ('Sin especificar', 'Sin especificar'),
+        ('3', 'Masculino'),
+        ('4', 'Femenino'),
+        ('2', 'Sin genero'),
+        ('1', 'Sin especificar'),
     ]
     gender = models.CharField(
         'Género',
@@ -61,8 +88,6 @@ class Person(BaseModel):
         choices = CHOICES_GENDER,
         default='Sin especificar',
         )
-    address = models.CharField('Dirección', max_length=15, blank=True, null=True)
-    neighborhood = models.CharField('Barrio', max_length=15, blank=True, null=True)
     phone = models.CharField('Nro de teléfono', max_length=15, blank=True, null=True)
     STATE_CHOICES = [
         ('Soltero', 'Soltero'),
@@ -90,4 +115,6 @@ class Person(BaseModel):
             self.first_lastname,
         )
         return texto
+
+
 

@@ -27,3 +27,4 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Person)
+#admin.site.register(Address) REVISAR
