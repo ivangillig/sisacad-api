@@ -43,7 +43,7 @@ class Address(models.Model):
     number = models.CharField('Número', max_length=4, blank=True, null=True)
     floor = models.CharField('Piso', max_length=2, blank=True, null=True)
     department = models.CharField('Departamento', max_length=2, blank=True, null=True)
-    address_state = models.CharField('Provincia', max_length=30, blank=True, null=True)
+    address_state = models.CharField('Provincia', max_length=2, blank=True, null=True)
     cp = models.CharField('Código Postal', max_length=6, blank=True, null=True)
 
     class Meta:
@@ -74,7 +74,7 @@ class Person(Address, BaseModel):
     second_lastname = models.CharField('Segundo apellido', max_length=15, blank=True, null=True)
     personal_email = models.EmailField('Email personal', max_length=40, blank=True, null=True)
     birthday = models.DateField('Fecha de nacimiento', blank=True, null=True)
-    birth_place = models.CharField('Lugar de nacimiento', max_length=15, blank=True, null=True)
+    birth_place = models.CharField('Lugar de nacimiento', max_length=20, blank=True, null=True)
     nationality = CountryField('Nacionalidad', blank_label='Selecciona un país', null=True)
     CHOICES_GENDER = [
         ('3', 'Masculino'),
@@ -84,7 +84,7 @@ class Person(Address, BaseModel):
     ]
     gender = models.CharField(
         'Género',
-        max_length=20,
+        max_length=1,
         choices = CHOICES_GENDER,
         default='Sin especificar',
         )
