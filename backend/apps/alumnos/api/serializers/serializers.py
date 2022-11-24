@@ -1,8 +1,9 @@
 from apps.alumnos.models import Student
 from rest_framework import serializers
+from django_countries.serializers import CountryFieldMixin
 
 
-class StudentSerializer(serializers.ModelSerializer):
+class StudentSerializer(CountryFieldMixin, serializers.ModelSerializer):
     #dni = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Student
