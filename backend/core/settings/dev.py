@@ -37,11 +37,12 @@ APPEND_SLASH = False
 
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8080',
-    'http://10.0.2.15:8080',
-    'http://192.168.0.24:8080'
-]
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:8080',
+#     'http://10.0.2.15:8080',
+#     'http://192.168.0.24:8080'
+# ]
 
 #CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = False

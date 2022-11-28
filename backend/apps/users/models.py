@@ -87,6 +87,7 @@ class Person(Address, BaseModel):
         max_length=1,
         choices = CHOICES_GENDER,
         default='Sin especificar',
+        null=True,
         )
     phone = models.CharField('Nro de teléfono', max_length=15, blank=True, null=True)
     STATE_CHOICES = [
