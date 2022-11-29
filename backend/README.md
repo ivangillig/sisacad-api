@@ -1,6 +1,6 @@
 # Sistema Académico
 
-Backend para el trabajo final (UTN)
+Backend para el trabajo final 
 
 ## Project Setup
 
