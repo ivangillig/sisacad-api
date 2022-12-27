@@ -11,7 +11,10 @@ sudo docker-compose up
 ### Panel de admin
 
 ```sh
-user: admin@admin.com
+user: admin@jif.com
 pass: admin
 ```
+
+Backend ->
+https://github.com/ivangillig/sisacad
 
