@@ -15,6 +15,6 @@ user: admin@jif.com
 pass: admin
 ```
 
-Backend ->
-https://github.com/ivangillig/sisacad
+Frontend ->
+https://github.com/ivangillig/sisacad-ui
 
