@@ -6,7 +6,7 @@ class LicenseSerializer(serializers.ModelSerializer):
         model = License
         fields = '__all__'
 
-class Bank_AccountSerializer(serializers.ModelSerializer):
+class BankAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bank_Account
         fields = '__all__'

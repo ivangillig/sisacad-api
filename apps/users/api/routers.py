@@ -1,14 +1,16 @@
-"""rest URL Configuration"""
-
-from django.urls import path,include
-
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from apps.users.api.views.general_views import UserViewset, PersonViewset, CheckUserViewset
 
 router = DefaultRouter()
 
-router.register(r'secretaria/user', UserViewset, basename = 'usuario'),
-router.register(r'secretaria/person', PersonViewset, basename = 'persona'),
-router.register(r'secretaria/checkemail', CheckUserViewset, basename = 'check_email'),
+router.register('secretaria/user', UserViewset, basename='user')
+router.register('secretaria/person', PersonViewset, basename='person')
+router.register('secretaria/checkemail', CheckUserViewset, basename='checkemail')
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('secretaria/', include(router.urls)),
+]
+
+
+
