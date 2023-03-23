@@ -1,5 +1,5 @@
 ##VISTAS GENERICAS CON LISTAPIVIEW - REEMPLAZAR POR VIEWSET
-from rest_framework import generics, status, viewsets
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 
 from apps.administracion.api.serializers.position_serializers import Position_TeacherSerializer

@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from apps.administracion.models import Bank
-from apps.administracion.api.serializers.general_serializers import LevelSerializer, CategorySerializer, PositionSerializer, BankSerializer
+from apps.administracion.api.serializers.general_serializers import CategorySerializer, PositionSerializer, BankSerializer
 
 class CategoryViewset(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]

@@ -34,18 +34,19 @@ class CheckUserViewset(viewsets.ModelViewSet):
             return Response({'message': 'No existe ningún alumno con este email'}, status = status.HTTP_200_OK)
         return Response({'message': 'Esta cuenta institucional ya se encuentra en uso!'}, status=status.HTTP_400_BAD_REQUEST)
 
-class PersonViewset(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    
+class PersonViewset(viewsets.ViewSet):
     serializer_class = PersonSerializer
-    queryset = PersonSerializer.Meta.model.objects.all()
-    lookup_field = 'doc_number'
+    queryset = PersonSerializer.Meta.model.objects.all() # Definimos el queryset
 
-        
-    # def get_obect(self, dni):
-    #     return get_object_or_404 (self.model.Meta.model, doc_number = dni)
- 
     
+    def retrieve(self, request, pk=None):
+        try:
+            person = Person.objects.get(id=pk)
+            serializer = self.serializer_class(person)
+            return Response(serializer.data)
+        except Person.DoesNotExist:
+            return Response({'success': False, 'message': 'No se encontró la persona con el id proporcionado.'}, status=200)
+
 
 # class PositionViewset(viewsets.ModelViewSet):
 #     #permission_classes = [IsAuthenticated]
