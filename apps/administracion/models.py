@@ -53,8 +53,7 @@ class Division(BaseModel):
         verbose_name_plural = 'Divisiones'
 
     def __str__(self):
-        text = '{} - {}'.format(
-            self.id,
+        text = '{}'.format(
             self.name,
         )
         return text
@@ -69,8 +68,7 @@ class Level(BaseModel):
         verbose_name_plural = 'Niveles'
 
     def __str__(self):
-        text = '{} - {}'.format(
-            self.id,
+        text = '{}'.format(
             self.name,
         )
         return text
@@ -85,8 +83,7 @@ class Speciality(BaseModel):
 
 
     def __str__(self):
-        text = '{} - {}'.format(
-            self.id,
+        text = '{}'.format(
             self.name,
         )
         return text
