@@ -2,12 +2,13 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from dj_rest_auth.registration.views import RegisterView
 
 from apps.users.models import Person
 from django.shortcuts import get_object_or_404
 
 import json
-from apps.users.api.serializers.general_serializers import UserSerializer, PersonSerializer
+from apps.users.api.serializers.general_serializers import UserSerializer, PersonSerializer, CustomRegisterSerializer
 
 class UserViewset(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
@@ -17,6 +18,20 @@ class UserViewset(viewsets.ModelViewSet):
         if pk is None:
             return self.get_serializer().Meta.model.objects.filter(is_active = True) 
         return self.get_serializer().Meta.model.objects.filter(id = pk, is_active = True).first() 
+
+#dj-rest-auth modified for retrieve the id and mail
+class CustomRegisterView(RegisterView):
+    serializer_class = CustomRegisterSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save(request)
+        data = {
+            'id': user.id,
+            'email': user.email,
+        }
+        return Response(data, status=status.HTTP_201_CREATED)
 
 class CheckUserViewset(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]

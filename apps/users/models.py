@@ -43,6 +43,7 @@ class Address(models.Model):
     number = models.CharField('Número', max_length=4, blank=True, null=True)
     floor = models.CharField('Piso', max_length=2, blank=True, null=True)
     department = models.CharField('Departamento', max_length=2, blank=True, null=True)
+    address_city = models.CharField('Ciudad', max_length=20, blank=True, null=True)
     address_state = models.CharField('Provincia', max_length=2, blank=True, null=True)
     cp = models.CharField('Código Postal', max_length=6, blank=True, null=True)
 
