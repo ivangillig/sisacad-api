@@ -25,14 +25,12 @@ class CheckUserViewset(viewsets.ModelViewSet):
 
     def create(self, request):
 
-        data = json.loads(request.body)
-        print(data['email'])
-        
+        data = json.loads(request.body)        
         email = self.get_serializer().Meta.model.objects.filter(email = data['email'])
 
         if not email:
-            return Response({'message': 'No existe ningún alumno con este email'}, status = status.HTTP_200_OK)
-        return Response({'message': 'Esta cuenta institucional ya se encuentra en uso!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'No existe ningún usuario con este email'}, status = status.HTTP_200_OK)
+        return Response({'message': 'Esta cuenta institucional ya se encuentra en uso'}, status=status.HTTP_400_BAD_REQUEST)
 
 class PersonViewset(viewsets.ViewSet):
     serializer_class = PersonSerializer
@@ -41,11 +39,11 @@ class PersonViewset(viewsets.ViewSet):
     
     def retrieve(self, request, pk=None):
         try:
-            person = Person.objects.get(id=pk)
+            person = Person.objects.get(doc_number=pk)
             serializer = self.serializer_class(person)
-            return Response(serializer.data)
+            return Response({'success': True, 'data' : serializer.data })
         except Person.DoesNotExist:
-            return Response({'success': False, 'message': 'No se encontró la persona con el id proporcionado.'}, status=200)
+            return Response({'success': False, 'message': 'No se encontró la persona con el DNI proporcionado.'}, status=200)
 
 
 # class PositionViewset(viewsets.ModelViewSet):

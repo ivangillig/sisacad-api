@@ -77,8 +77,6 @@ LOCAL_APPS = [
 THIRD_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
-    #'rest_auth',
-    #'rest_auth.registration',
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'corsheaders',
@@ -233,6 +231,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 REST_AUTH_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'apps.users.api.serializers.general_serializers.RegisterSerializer',
     'TOKEN_SERIALIZER': 'apps.users.api.serializers.general_serializers.TokenSerializer',
     }
 

@@ -6,7 +6,7 @@ from apps.alumnos.api.views.general_views import StudentViewSet, TutorViewSet, S
 
 router = routers.DefaultRouter()
 
-router.register(r'alumnos', StudentViewSet, basename='students')
+router.register(r'secretaria/alumno', StudentViewSet, basename='students')
 router.register(r'tutores', TutorViewSet, basename='tutors')
 router.register(r'alumnostutores', Student_TutorViewSet, basename='student_tutors')
 router.register(r'autorizados', Withdraw_AuthorizedViewSet, basename='withdraw_authorizeds')

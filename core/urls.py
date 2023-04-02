@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/', include(administracion_router.urls)),
     path('api/', include(docentes_router.urls)),
     path('auth/', include('dj_rest_auth.urls')),
+    path('auth/registration/', include('dj_rest_auth.registration.urls')),
 ]
 
 # urlpatterns = [
@@ -41,7 +42,7 @@ urlpatterns = [
 #     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 #     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 #     path('admin/', admin.site.urls),
-#     path('auth/registration/', include('dj_rest_auth.registration.urls')),
+#     
 #     path('', include('apps.docentes.api.urls')),
 #     path('', include('apps.alumnos.api.routers')),
 # ]

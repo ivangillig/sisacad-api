@@ -4,13 +4,11 @@ from apps.users.api.views.general_views import UserViewset, CheckUserViewset, Pe
 
 router = DefaultRouter()
 
-router.register('administracion/user', UserViewset, basename='user')
+router.register('secretaria/user', UserViewset, basename='user')
 router.register('administracion/person', PersonViewset, basename='person')
 router.register('administracion/checkemail', CheckUserViewset, basename='checkemail')
 
-urlpatterns = [
-    path('secretaria/', include(router.urls)),
-]
+urlpatterns = router.urls
 
 
 
