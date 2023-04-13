@@ -231,7 +231,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 REST_AUTH_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'apps.users.api.serializers.general_serializers.RegisterSerializer',
+    'REGISTER_SERIALIZER': 'apps.users.api.serializers.general_serializers.CustomRegisterSerializer',
     'TOKEN_SERIALIZER': 'apps.users.api.serializers.general_serializers.TokenSerializer',
     }
 

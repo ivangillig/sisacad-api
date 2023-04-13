@@ -6,11 +6,12 @@ from apps.users.api.routers import router as users_router
 from apps.docentes.api.routers import router as docentes_router
 from apps.administracion.api.routers import router as administracion_router
 from apps.alumnos.api.routers import router as students_router
+from apps.users.api.views.general_views import CustomRegisterView
 
 #Swagger
 from rest_framework import permissions
-from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -34,7 +35,9 @@ urlpatterns = [
     path('api/', include(administracion_router.urls)),
     path('api/', include(docentes_router.urls)),
     path('auth/', include('dj_rest_auth.urls')),
-    path('auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('auth/registration/', CustomRegisterView.as_view(), name='custom-register'),
+
+    #path('auth/registration/', include('dj_rest_auth.registration.urls')),
 ]
 
 # urlpatterns = [

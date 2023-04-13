@@ -15,9 +15,10 @@ services:
 
   web:
     build: .
+    container_name: Sisacad_API
     command: python manage.py runserver --settings=core.settings.dev  0.0.0.0:8000
     volumes:
-      - .:/sistema_academico
+      - .:/sisacad-api
     ports:
       - "8000:8000"
     environment:
@@ -28,18 +29,18 @@ services:
     # depends_on:
     #   - db
 
-  # portainer:
-  #   image: portainer/portainer-ce:latest
-  #   container_name: portainer_academico
-  #   restart: unless-stopped
-  #   security_opt:
-  #     - no-new-privileges:true
-  #   volumes:
-  #     - /etc/localtime:/etc/localtime:ro
-  #     - /var/run/docker.sock:/var/run/docker.sock:ro
-  #     - ../portainer-data:/data
-  #   ports:
-  #     - 9000:9000
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: Sisacad_portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ../portainer-data:/data
+    ports:
+      - 9000:9000
 
 volumes:
   postgres_data:
