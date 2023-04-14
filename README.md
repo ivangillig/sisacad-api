@@ -25,7 +25,7 @@ Posicionarse en la ruta principal del proyecto **sisacad-api/**
 ```sh
 sh load_initial_data.sh
 ```
-#### 4- Levantar el servicio de docker
+#### 4- Levantar los servicios con docker-compose
 ```sh
 sudo docker-compose up
 ```
