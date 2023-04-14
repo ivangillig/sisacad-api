@@ -10,6 +10,5 @@ django-cors-headers
 django-countries[pyuca]
 django-simple-history
 drf-yasg #documentación API Swagger
-django_seed
 
 

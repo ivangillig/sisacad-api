@@ -1,0 +1,26 @@
+[
+  {
+    "model": "administracion.subject",
+    "fields": {
+      "name": "Matemáticas",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.subject",
+    "fields": {
+      "name": "Ciencias",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.subject",
+    "fields": {
+      "name": "Historia",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  }
+]

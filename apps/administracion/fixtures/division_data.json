@@ -1,0 +1,26 @@
+[
+  {
+    "model": "administracion.division",
+    "fields": {
+      "name": "A",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.division",
+    "fields": {
+      "name": "B",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.division",
+    "fields": {
+      "name": "C",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  }
+]

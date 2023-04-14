@@ -1,7 +1,6 @@
-from apps.alumnos.api.api import StudentViewSet
 from rest_framework import routers
-from apps.alumnos.api.views.general_views import StudentViewSet, TutorViewSet, Student_TutorViewSet, Withdraw_AuthorizedViewSet, Student_Withdraw_AuthorizedViewSet, PaymentViewSet
-
+from apps.alumnos.api.views.general_views import PaymentViewSet
+from apps.alumnos.api.views.student_views import StudentViewSet, TutorViewSet, Student_TutorViewSet, Withdraw_AuthorizedViewSet, Student_Withdraw_AuthorizedViewSet
 
 
 router = routers.DefaultRouter()

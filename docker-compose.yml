@@ -1,22 +1,25 @@
 version: "3.9"
-   
-services:
-  # db:
-  #   image: postgres
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data/
-  #   environment:
-  #     - POSTGRES_DB=postgres2
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
-  #   ports:
-  #     - "5432:5432"
 
+services:
+  db:
+    image: postgres
+    container_name: Sisacad_DB
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=postgres2
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
 
   web:
     build: .
     container_name: Sisacad_API
-    command: python manage.py runserver --settings=core.settings.dev  0.0.0.0:8000
+    command: bash -c "python3 manage.py makemigrations && 
+                      python3 manage.py migrate && 
+                      python3 manage.py loaddata apps/users/fixtures/users_data.json &&
+                      python3 manage.py runserver --settings=core.settings.dev 0.0.0.0:8000"
     volumes:
       - .:/sisacad-api
     ports:
@@ -26,12 +29,12 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST=db
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
 
   portainer:
     image: portainer/portainer-ce:latest
-    container_name: Sisacad_portainer
+    container_name: Sisacad_Portainer
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true

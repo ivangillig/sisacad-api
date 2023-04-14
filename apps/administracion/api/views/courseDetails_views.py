@@ -134,32 +134,5 @@ class GradeViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(grade)
         return Response(serializer.data)
 
-    # def create_grade(request):
-    #     # Parse JSON data from the request body
-    #     print(data)
-    #     data = json.loads(request.body)
-
-    #     # Get the level instance with the specified ID
-    #     level = Level.objects.get(id=data['level'])
-    #     # Create the new Grade instance
-    #     grade = Grade.objects.create(
-    #         level=level,
-    #         name=data['name'],
-    #         speciality=data['speciality'],
-    #         division=data['division']
-    #     )
-
-    #     # Return the new grade instance as JSON
-    #     return JsonResponse({
-    #         'id': grade.id,
-    #         'name': grade.name,
-    #         'level': {
-    #             'id': grade.level.id,
-    #             'name': grade.level.name
-    #         },
-    #         'speciality': grade.speciality,
-    #         'division': grade.division
-    #     })
-
 
 
