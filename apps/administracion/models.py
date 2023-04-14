@@ -75,7 +75,8 @@ class Level(BaseModel):
 
 class Speciality(BaseModel):
     
-    name = models.CharField('Nombre', max_length=30, unique=True)
+    name = models.CharField('Nombre', max_length=40, unique=True)
+    shortName = models.CharField('Nombre_corto', max_length=12, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Modalidad'

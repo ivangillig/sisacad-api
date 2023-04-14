@@ -2,7 +2,7 @@
   {
     "model": "administracion.subject",
     "fields": {
-      "name": "Matemáticas",
+      "name": "Lengua y literatura",
       "created_date": "2022-03-25",
       "modified_date": "2022-03-25"
     }
@@ -10,7 +10,7 @@
   {
     "model": "administracion.subject",
     "fields": {
-      "name": "Ciencias",
+      "name": "Matemática",
       "created_date": "2022-03-25",
       "modified_date": "2022-03-25"
     }
@@ -19,6 +19,38 @@
     "model": "administracion.subject",
     "fields": {
       "name": "Historia",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.subject",
+    "fields": {
+      "name": "Biología",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.subject",
+    "fields": {
+      "name": "Geografía",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.subject",
+    "fields": {
+      "name": "Gimnasia",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.subject",
+    "fields": {
+      "name": "Química",
       "created_date": "2022-03-25",
       "modified_date": "2022-03-25"
     }

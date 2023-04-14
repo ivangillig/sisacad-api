@@ -1,0 +1,26 @@
+[
+  {
+    "model": "administracion.level",
+    "fields": {
+      "name": "Inicial",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.level",
+    "fields": {
+      "name": "Primaria",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.level",
+    "fields": {
+      "name": "Secundaria",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  }
+]

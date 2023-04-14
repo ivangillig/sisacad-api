@@ -1,0 +1,20 @@
+[
+  {
+    "model": "administracion.speciality",
+    "fields": {
+      "name": "Bachiller en Comunicación",
+      "shortName": "Comunicación",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  },
+  {
+    "model": "administracion.speciality",
+    "fields": {
+      "name": "Bachiller en Economía y Administración",
+      "shortName": "Economía",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
+  }
+]

@@ -6,6 +6,7 @@
       "email": "admin@jif.com",
       "role": "ADMIN",
       "is_staff": true,
+      "is_superuser": true,
       "password": "pbkdf2_sha256$390000$C09FJNWw6z574WeTgf0EEW$dUJe8bW2l7vPWW+u9ZVFA2GXx6G9KAjcFdZRfY+z47A="
     }
   },
