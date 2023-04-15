@@ -16,5 +16,14 @@
       "created_date": "2022-03-25",
       "modified_date": "2022-03-25"
     }
+  },
+  {
+    "model": "administracion.speciality",
+    "fields": {
+      "name": "No aplica",
+      "shortName": "N/A",
+      "created_date": "2022-03-25",
+      "modified_date": "2022-03-25"
+    }
   }
 ]
