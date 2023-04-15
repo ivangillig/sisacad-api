@@ -31,6 +31,10 @@ sh load_initial_data.sh
 ```
 
 <br>
+#### Para acceder a la consola del docker, escribir en otra terminal:
+```sh
+sudo docker exec -it Sisacad-UI sh
+```
 
 #### Users de prueba
 **Admin**
