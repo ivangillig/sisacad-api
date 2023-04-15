@@ -54,5 +54,61 @@
       "address_state": "1",
       "cp": "9420"
     }
+  },
+  {
+    "model": "users.Person",
+    "pk": 3,
+    "fields": {
+      "created_date" : "2022-03-25",
+      "modified_date" : "2022-03-25",
+      "doc_number": "42238472",
+      "first_name": "Nahuel",
+      "middle_name": "",
+      "first_lastname": "Hernandez",
+      "second_lastname": "Perez",
+      "personal_email": "nahuel.hernandez@gmail.com",
+      "birthday": "1990-02-21",
+      "birth_place": "Ushuaia",
+      "nationality": "AR",
+      "gender": "Masculino",
+      "phone": "2964622411",
+      "marital_status": "Soltero",
+      "user": 4,
+      "street": "11 de Julio",
+      "number": "112",
+      "floor": 2,
+      "department": 4,
+      "address_city": "Río Grande",
+      "address_state": "1",
+      "cp": "9420"
+    }
+  },
+  {
+    "model": "users.Person",
+    "pk": 4,
+    "fields": {
+      "created_date" : "2022-03-25",
+      "modified_date" : "2022-03-25",
+      "doc_number": "42321425",
+      "first_name": "Karen",
+      "middle_name": "Romina",
+      "first_lastname": "Gutierrez",
+      "second_lastname": "",
+      "personal_email": "karen.gutierrez@gmail.com",
+      "birthday": "1995-02-02",
+      "birth_place": "Río Grande",
+      "nationality": "AR",
+      "gender": "Femenino",
+      "phone": "2964620045",
+      "marital_status": "Soltero",
+      "user": 5,
+      "street": "Thorne",
+      "number": "1704",
+      "floor": null,
+      "department": null,
+      "address_city": "Río Grande",
+      "address_state": "1",
+      "cp": "9420"
+    }
   }
 ]

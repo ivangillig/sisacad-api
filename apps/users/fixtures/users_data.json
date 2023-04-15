@@ -27,5 +27,23 @@
       "role": "ADMIN",
       "password": "35219687"
     }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "email": "nahuel.hernandez@jif.com",
+      "role": "STUDENT",
+      "password": "42238472"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+      "email": "karen.gutierrez@jif.com",
+      "role": "STUDENT",
+      "password": "42321425"
+    }
   }
 ]

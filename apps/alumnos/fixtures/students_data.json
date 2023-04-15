@@ -36,5 +36,43 @@
       "leave_auth": true,
       "public_auth": true
     }
+  },
+  {
+    "model": "alumnos.student",
+    "pk": 3,
+    "fields": {
+      "person_ptr_id": 3,
+      "family_phone": "",
+      "medical_treatment": false,
+      "medications": "",
+      "allergies": "",
+      "observations": "",
+      "school_cert_destinty": "",
+      "admission_date": "2023-03-01",
+      "leaving_date": null,
+      "trips_auth": false,
+      "medical_auth": false,
+      "leave_auth": false,
+      "public_auth": false
+    }
+  },
+  {
+    "model": "alumnos.student",
+    "pk": 4,
+    "fields": {
+      "person_ptr_id": 4,
+      "family_phone": "444000",
+      "medical_treatment": true,
+      "medications": "Amoxilina 400",
+      "allergies": "Polvo, Flores",
+      "observations": "",
+      "school_cert_destinty": "Gobierno de Tierra Del Fuego",
+      "admission_date": "2023-03-01",
+      "leaving_date": null,
+      "trips_auth": true,
+      "medical_auth": true,
+      "leave_auth": true,
+      "public_auth": false
+    }
   }
 ]

@@ -20,15 +20,18 @@ cd sisacad-api
 ```sh
 sudo docker-compose build
 ```
-#### 3- Migración de datos de prueba
-Posicionarse en la ruta principal del proyecto **sisacad-api/**
-```sh
-sh load_initial_data.sh
-```
-#### 4- Levantar los servicios con docker-compose
+#### 3- Levantar los servicios con docker-compose
 ```sh
 sudo docker-compose up
 ```
+#### 4- Migración de datos de prueba
+En otra terminal, posicionarse en la ruta principal del proyecto **sisacad-api/** y ejecutar:
+```sh
+sh load_initial_data.sh
+```
+
+<br>
+
 #### Users de prueba
 **Admin**
 ```sh
