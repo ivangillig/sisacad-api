@@ -1,7 +1,16 @@
-# Índice
+# Sistema Académico
+
+Trabajo final para la tecnicatura universitaria en programación de la **UTN - Río Grande**
+
+El presente repositorio consiste en una API para gestión y administración de un sistema escolar desarrollado en Python y Django/DRF.
+
+Para las pruebas de desarrollo el docker-compose incluye una imagen de PostgreSQL y una de Portainer para el manejo de los servicios.
+
+##### Link al repositorio frontend -> https://github.com/ivangillig/sisacad-ui
+
+## Índice
 
 - [Sistema Académico](#sistema-académico)
-- [Repositorio frontend](#link-al-repositorio-frontend)
 - [Configuración Inicial](#configuración-inicial)
   - [Clonar el repositorio](#1-clonar-el-repositorio)
   - [Construcción de imagen docker](#2-construcción-de-imagen-docker)
@@ -9,17 +18,6 @@
   - [Migración de datos de prueba](#4-migración-de-datos-de-prueba)
   - [Acceso a la consola del docker](#para-acceder-a-la-consola-del-docker)
   - [Usuarios de prueba](#-users-de-prueba)
-
-## Sistema Académico
-
-El presente repositorio consiste en una API para gestión y administración de un sistema escolar desarrollado en Python y Django/DRF.
-
-Para las pruebas de desarrollo el docker-compose incluye una imagen de PostgreSQL y una de Portainer para el manejo de los servicios.
-
-##### Link al repositorio frontend
-https://github.com/ivangillig/sisacad-ui
-
-<br>
 
 ## Configuración Inicial
 
