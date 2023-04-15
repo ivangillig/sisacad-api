@@ -30,7 +30,7 @@ En otra terminal, posicionarse en la ruta principal del proyecto **sisacad-api/*
 sh load_initial_data.sh
 ```
 
-#### Para acceder a la consola del docker, escribir en otra terminal:
+#### Para acceder a la consola del docker:
 ```sh
 sudo docker exec -it Sisacad_API sh
 ```
