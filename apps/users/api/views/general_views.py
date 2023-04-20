@@ -44,8 +44,8 @@ class CheckUserViewset(viewsets.ModelViewSet):
         email = self.get_serializer().Meta.model.objects.filter(email = data['email'])
 
         if not email:
-            return Response({'message': 'No existe ningún usuario con este email'}, status = status.HTTP_200_OK)
-        return Response({'message': 'Esta cuenta institucional ya se encuentra en uso'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success': False, 'message': 'No se encontró ninguna cuenta de correo asociada al mail proporcionado.'}, status = status.HTTP_200_OK)
+        return Response({'success': True, 'message': 'Esta cuenta institucional ya se encuentra en uso'}, status=status.HTTP_400_BAD_REQUEST)
 
 class PersonViewset(viewsets.ViewSet):
     serializer_class = PersonSerializer
