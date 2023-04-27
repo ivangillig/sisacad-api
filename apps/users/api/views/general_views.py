@@ -45,7 +45,7 @@ class CheckUserViewset(viewsets.ModelViewSet):
 
         if not email:
             return Response({'success': False, 'message': 'No se encontró ninguna cuenta de correo asociada al mail proporcionado.'}, status = status.HTTP_200_OK)
-        return Response({'success': True, 'message': 'Esta cuenta institucional ya se encuentra en uso'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'success': True, 'message': 'Esta cuenta institucional ya se encuentra en uso'}, status=status.HTTP_200_OK)
 
 class PersonViewset(viewsets.ViewSet):
     serializer_class = PersonSerializer
