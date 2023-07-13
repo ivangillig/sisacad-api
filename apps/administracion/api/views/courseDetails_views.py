@@ -10,12 +10,6 @@ from django.http import JsonResponse
 from apps.administracion.models import Level, Division, Speciality, Course, Grade
 from apps.administracion.api.serializers.courseDetails_serializers import CourseSerializer, LevelSerializer, SpecialitySerializer, DivisionSerializer, GradeSerializer
 
-class CourseViewSet(viewsets.ModelViewSet):
-
-    queryset = Course.objects.all().order_by('-id')
-    serializer_class = CourseSerializer
-    # permission_classes = [permissions.IsAuthenticated]
-
 class LevelViewSet(viewsets.ModelViewSet):
 
     queryset = Level.objects.all() 
@@ -134,5 +128,9 @@ class GradeViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(grade)
         return Response(serializer.data)
 
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    # permission_classes = [permissions.IsAuthenticated]
 
 

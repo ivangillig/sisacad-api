@@ -5,6 +5,7 @@
     "fields": {
       "created_date" : "2022-03-25",
       "modified_date" : "2022-03-25",
+      "deleted_date" : null,
       "doc_number": "34375794",
       "first_name": "Ivan",
       "middle_name": "Eugenio",
@@ -33,6 +34,7 @@
     "fields": {
       "created_date" : "2022-03-25",
       "modified_date" : "2022-03-25",
+      "deleted_date" : null,
       "doc_number": "35219687",
       "first_name": "Daiana",
       "middle_name": "Kren",
@@ -61,6 +63,7 @@
     "fields": {
       "created_date" : "2022-03-25",
       "modified_date" : "2022-03-25",
+      "deleted_date" : null,
       "doc_number": "42238472",
       "first_name": "Nahuel",
       "middle_name": "",
@@ -89,6 +92,7 @@
     "fields": {
       "created_date" : "2022-03-25",
       "modified_date" : "2022-03-25",
+      "deleted_date" : null,
       "doc_number": "42321425",
       "first_name": "Karen",
       "middle_name": "Romina",
