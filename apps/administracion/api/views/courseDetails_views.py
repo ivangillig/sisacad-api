@@ -7,8 +7,8 @@ from rest_framework.decorators import action
 import json
 from django.http import JsonResponse
 
-from apps.administracion.models import Level, Division, Speciality, Course, Grade
-from apps.administracion.api.serializers.courseDetails_serializers import CourseSerializer, LevelSerializer, SpecialitySerializer, DivisionSerializer, GradeSerializer
+from apps.administracion.models import Course_Student, Level, Division, Speciality, Course, Grade
+from apps.administracion.api.serializers.courseDetails_serializers import CourseSerializer, CourseStudentSerializer, LevelSerializer, SpecialitySerializer, DivisionSerializer, GradeSerializer
 
 class LevelViewSet(viewsets.ModelViewSet):
 
@@ -133,4 +133,12 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
+class CourseStudentViewSet(viewsets.ModelViewSet):
+    serializer_class = CourseStudentSerializer
+    queryset = Course_Student.objects.all()
 
+    @action(detail=False, methods=['get'], url_path='curso/(?P<course_id>\d+)')
+    def students_in_course(self, request, course_id=None):
+        students = Course_Student.objects.filter(course__id=course_id)
+        serializer = self.get_serializer(students, many=True)
+        return Response(serializer.data)
