@@ -1,12 +1,13 @@
 ##VISTAS GENERICAS CON LISTAPIVIEW - REEMPLAZAR POR VIEWSET
-from rest_framework import viewsets
+from apps.alumnos.api.serializers.student_serializer import StudentSerializer
+from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.decorators import action
 
 import json
 from django.http import JsonResponse
 
+from apps.alumnos.models import Student
 from apps.administracion.models import Course_Student, Level, Division, Speciality, Course, Grade
 from apps.administracion.api.serializers.courseDetails_serializers import CourseSerializer, CourseStudentSerializer, LevelSerializer, SpecialitySerializer, DivisionSerializer, GradeSerializer
 
@@ -142,3 +143,20 @@ class CourseStudentViewSet(viewsets.ModelViewSet):
         students = Course_Student.objects.filter(course__id=course_id)
         serializer = self.get_serializer(students, many=True)
         return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+
+        data = request.data
+
+        course = Course.objects.get(id=data.get('course')) if data.get('course') else None
+        student = Student.objects.get(id=data.get('student')) if data.get('student') else None
+        add_date = data['add_date']
+
+        Course_Student.objects.create(
+            course=course,
+            student=student,
+            add_date=add_date
+        )
+
+        return Response({'message': 'Alumno matriculado correctamente'}, status=status.HTTP_201_CREATED)
