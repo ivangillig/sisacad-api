@@ -38,7 +38,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ('id', 'grade', 'academic_year', 'shift')
+        fields = ('id', 'grade', 'academic_year', 'shift', 'created_date')
 
 class CourseStudentSerializer(serializers.ModelSerializer):
     course = CourseSerializer(read_only=True)
