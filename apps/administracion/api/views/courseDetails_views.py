@@ -1,4 +1,5 @@
 ##VISTAS GENERICAS CON LISTAPIVIEW - REEMPLAZAR POR VIEWSET
+from django.db import IntegrityError
 from apps.alumnos.api.serializers.student_serializer import StudentSerializer
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -141,13 +142,15 @@ class CourseViewSet(viewsets.ModelViewSet):
         academic_year = data['academic_year']
         shift = data['shift']
 
-        Course.objects.create(
-            grade=grade,
-            academic_year=academic_year,
-            shift=shift,
-        )
-
-        return Response({'message': 'Curso lectivo creado correctamente'}, status=status.HTTP_201_CREATED)
+        try:
+            Course.objects.create(
+                grade=grade,
+                academic_year=academic_year,
+                shift=shift,
+            )
+            return Response({'message': 'Curso lectivo creado correctamente'}, status=status.HTTP_201_CREATED)
+        except IntegrityError:
+            return Response({'error': 'Ya existe un curso con las mismas especificaciones.'}, status=status.HTTP_400_BAD_REQUEST)
 
 class CourseStudentViewSet(viewsets.ModelViewSet):
     serializer_class = CourseStudentSerializer
