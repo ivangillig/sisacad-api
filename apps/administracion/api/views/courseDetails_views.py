@@ -134,6 +134,21 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
+    def create(self, request, *args, **kwargs):
+        data = request.data
+
+        grade = Grade.objects.get(id=data.get('grade')) if data.get('grade') else None
+        academic_year = data['academic_year']
+        shift = data['shift']
+
+        Course.objects.create(
+            grade=grade,
+            academic_year=academic_year,
+            shift=shift,
+        )
+
+        return Response({'message': 'Curso lectivo creado correctamente'}, status=status.HTTP_201_CREATED)
+
 class CourseStudentViewSet(viewsets.ModelViewSet):
     serializer_class = CourseStudentSerializer
     queryset = Course_Student.objects.all()
@@ -145,8 +160,6 @@ class CourseStudentViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
-
         data = request.data
 
         course = Course.objects.get(id=data.get('course')) if data.get('course') else None
