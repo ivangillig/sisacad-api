@@ -136,6 +136,9 @@ class Student_Withdraw_Authorized(BaseModel):
 
 class Payment(BaseModel):
 
+    amount = models.IntegerField('Importe', blank=True, null=True)
+    payment_date = models.DateField('Fecha de pago', auto_now=False, auto_now_add=False, blank=True, null=True)
+    file = models.FileField('Comprobante', upload_to='documentos/alumnos/%Y', null=True)
     PAYMENT_CHOICES = [
         ('1', 'Cuota mensual'),
         ('2', 'Pago de matrícula'),
@@ -146,22 +149,20 @@ class Payment(BaseModel):
         choices = PAYMENT_CHOICES,
         default='1',
         )
-    unit_amount = models.IntegerField('Monto unitario', blank=True, null=True)
-    BROTHERS_QTY_CHOICES = [
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
-    ]
-    brothers_qty = models.CharField(
-        'Cantidad de hermanos',
-        max_length=1,
-        choices = BROTHERS_QTY_CHOICES,
-        default='1',
-        )
-    brothers_discount = models.IntegerField('Descuento por hermanos', blank=True, null=True)
-    payment_date = models.DateField('Fecha de pago', auto_now=False, auto_now_add=False, blank=True, null=True)
+    # BROTHERS_QTY_CHOICES = [
+    #     ('1', '1'),
+    #     ('2', '2'),
+    #     ('3', '3'),
+    #     ('4', '4'),
+    #     ('5', '5'),
+    # ]
+    # brothers_qty = models.CharField(
+    #     'Cantidad de hermanos',
+    #     max_length=1,
+    #     choices = BROTHERS_QTY_CHOICES,
+    #     default='1',
+    #     )
+    # brothers_discount = models.IntegerField('Descuento por hermanos', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Pago'
@@ -178,7 +179,7 @@ class Payment_Student (BaseModel):
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Alumno')
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE, verbose_name='Pago')
-    
+
     class Meta:
         constraints = [
             models.UniqueConstraint(

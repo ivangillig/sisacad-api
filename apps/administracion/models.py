@@ -274,11 +274,11 @@ class Position_Teacher(BaseModel):
         return text
 
 ####################################
-########## INFO BANCARIA ###########
+######### BANK INFORMATION #########
 ####################################
 
 class Bank(BaseModel):
-    
+
     bank_name = models.CharField('Nombre de banco', max_length=40, unique=True)
 
     class Meta:
