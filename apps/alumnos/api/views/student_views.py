@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from apps.alumnos.models import Student, Tutor, Student_Tutor, Withdraw_Authorized, Student_Withdraw_Authorized, Payment
 from apps.alumnos.api.serializers.general_serializers import TutorSerializer, Student_TutorSerializer, PaymentSerializer
-from apps.alumnos.api.serializers.student_serializer import StudentSerializer, Withdraw_AuthorizedSerializer, Student_Withdraw_AuthorizedSerializer
+from apps.alumnos.api.serializers.student_serializer import PaymentStudentSerializer, StudentSerializer, Withdraw_AuthorizedSerializer, Student_Withdraw_AuthorizedSerializer
 
 class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentSerializer
@@ -68,3 +68,29 @@ class Student_Withdraw_AuthorizedViewSet(viewsets.ModelViewSet):
     serializer_class = Student_Withdraw_AuthorizedSerializer
     queryset = Student_Withdraw_Authorized.objects.all()
     #permission_classes = [IsAuthenticated]
+
+class PaymentAndPaymentStudentViewSet(viewsets.GenericViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+
+    def create(self, request, *args, **kwargs):
+        payment_serializer = self.serializer_class(data=request.data)
+
+        if payment_serializer.is_valid():
+            payment = payment_serializer.save()
+
+            payment_student_data = {
+                'student': request.data['student_id'],
+                'payment': payment.id
+            }
+
+            payment_student_serializer = PaymentStudentSerializer(data=payment_student_data)
+            if payment_student_serializer.is_valid():
+                payment_student_serializer.save()
+                return Response(payment_student_serializer.data, status=status.HTTP_201_CREATED)
+
+            # Si hay un error en Payment_Student, eliminamos el Payment para mantener la integridad de los datos
+            payment.delete()
+            return Response(payment_student_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(payment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
