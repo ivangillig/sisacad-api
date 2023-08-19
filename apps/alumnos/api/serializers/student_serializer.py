@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from apps.users.models import Person, User
 from django_countries.serializers import CountryFieldMixin
-from apps.alumnos.models import Payment, Payment_Student, Student, Withdraw_Authorized, Student_Withdraw_Authorized
+from apps.alumnos.models import Student, Withdraw_Authorized, Student_Withdraw_Authorized
 
 # class StudentSerializer(CountryFieldMixin, serializers.ModelSerializer):
 #     class Meta:
@@ -40,13 +40,3 @@ class Student_Withdraw_AuthorizedSerializer(serializers.ModelSerializer):
         model = Student_Withdraw_Authorized
         fields = '__all__'
         depth = 1
-
-class PaymentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Payment
-        fields = ('id', 'amount', 'payment_date', 'file', 'payment_type')
-
-class PaymentStudentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Payment_Student
-        fields = ('id', 'student', 'payment')

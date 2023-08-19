@@ -8,9 +8,9 @@ from rest_framework.decorators import action
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from apps.alumnos.models import Student, Tutor, Student_Tutor, Withdraw_Authorized, Student_Withdraw_Authorized, Payment
-from apps.alumnos.api.serializers.general_serializers import TutorSerializer, Student_TutorSerializer, PaymentSerializer
-from apps.alumnos.api.serializers.student_serializer import PaymentStudentSerializer, StudentSerializer, Withdraw_AuthorizedSerializer, Student_Withdraw_AuthorizedSerializer
+from apps.alumnos.models import Payment_Student, Student, Tutor, Student_Tutor, Withdraw_Authorized, Student_Withdraw_Authorized
+from apps.alumnos.api.serializers.general_serializers import TutorSerializer, Student_TutorSerializer, PaymentStudentSerializer, PaymentSerializer
+from apps.alumnos.api.serializers.student_serializer import StudentSerializer, Withdraw_AuthorizedSerializer, Student_Withdraw_AuthorizedSerializer
 
 class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentSerializer
@@ -70,11 +70,15 @@ class Student_Withdraw_AuthorizedViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
 
 class PaymentAndPaymentStudentViewSet(viewsets.GenericViewSet):
-    queryset = Payment.objects.all()
-    serializer_class = PaymentSerializer
+    queryset = Payment_Student.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return PaymentSerializer
+        return PaymentStudentSerializer
 
     def create(self, request, *args, **kwargs):
-        payment_serializer = self.serializer_class(data=request.data)
+        payment_serializer = self.get_serializer_class()(data=request.data)
 
         if payment_serializer.is_valid():
             payment = payment_serializer.save()
@@ -83,14 +87,29 @@ class PaymentAndPaymentStudentViewSet(viewsets.GenericViewSet):
                 'student': request.data['student_id'],
                 'payment': payment.id
             }
+            print(payment_student_data)
 
             payment_student_serializer = PaymentStudentSerializer(data=payment_student_data)
             if payment_student_serializer.is_valid():
                 payment_student_serializer.save()
-                return Response(payment_student_serializer.data, status=status.HTTP_201_CREATED)
+                return Response({'message': 'Pago cargado correctamente'}, status=status.HTTP_201_CREATED)
 
-            # Si hay un error en Payment_Student, eliminamos el Payment para mantener la integridad de los datos
             payment.delete()
             return Response(payment_student_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(payment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, *args, **kwargs):
+        Payment_Student = self.get_object()
+        serializer = self.get_serializer_class()(Payment_Student)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['GET'])
+    def payments_by_student(self, request):
+        student_id = request.query_params.get('student_id', None)
+        if not student_id:
+            return Response({'message': 'Se requiere un ID de estudiante'}, status=status.HTTP_400_BAD_REQUEST)
+
+        payments_by_student = Payment_Student.objects.filter(student__id=student_id)
+        serializer = self.get_serializer_class()(payments_by_student, many=True)
+        return Response(serializer.data)

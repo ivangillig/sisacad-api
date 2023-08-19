@@ -115,7 +115,7 @@ class Student_Withdraw_Authorized(BaseModel):
         choices = RELATIONSHIP_CHOICES,
         default='Hermano/a',
         )
-    
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
