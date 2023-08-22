@@ -1,5 +1,7 @@
 # apps/alumnos/api/views/general_views.py
 from urllib import response
+from django.conf import settings
+
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import status
@@ -8,9 +10,14 @@ from rest_framework.decorators import action
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
 from apps.alumnos.models import Payment_Student, Student, Tutor, Student_Tutor, Withdraw_Authorized, Student_Withdraw_Authorized
 from apps.alumnos.api.serializers.general_serializers import TutorSerializer, Student_TutorSerializer, PaymentStudentSerializer, PaymentSerializer
 from apps.alumnos.api.serializers.student_serializer import StudentSerializer, Withdraw_AuthorizedSerializer, Student_Withdraw_AuthorizedSerializer
+
+website_url = settings.MY_WEBSITE_URL
 
 class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentSerializer
@@ -82,6 +89,31 @@ class PaymentAndPaymentStudentViewSet(viewsets.GenericViewSet):
 
         if payment_serializer.is_valid():
             payment = payment_serializer.save()
+
+            # Obtener el correo electrónico y el nombre del estudiante
+            student = Student.objects.get(id=request.data['student_id'])
+
+            # Obtener el correo electrónico del User asociado al Student a través de Person
+            student_email = student.user.email
+
+            # Renderizar la plantilla con el contexto
+            context = {
+                'student_name': student.first_name,
+                'payment_date': request.data['payment_date'],
+                'amount': request.data['amount'],
+                'website_url': website_url
+            }
+            email_body = render_to_string('payment_received.html', context)
+
+            # Enviar el correo
+            email = EmailMessage(
+                'Nuevo comprobante de pago recibido',
+                email_body,
+                'juvenilinstitutofueguino@jif.com.ar',
+                [student_email]
+            )
+            email.content_subtype = 'html'  # Para enviar el correo en formato HTML
+            email.send()
 
             payment_student_data = {
                 'student': request.data['student_id'],

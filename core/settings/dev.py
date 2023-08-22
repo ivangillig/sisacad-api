@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 
+MY_WEBSITE_URL = os.environ.get('', 'http://localhost:8080')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #BASE_DIR = Path(__file__).resolve().parent.parent
@@ -91,7 +92,6 @@ THIRD_APPS = [
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
 SITE_ID = 1
-EMAIL_BACKEND = 'django.core.email.backends.console.EmailBackend'
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -238,13 +238,12 @@ REST_AUTH_SERIALIZERS = {
 #ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 #LOGIN_URL = 'http://localhost:8000/users/login'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = 'email@gmail.com'
-# EMAIL_HOST_PASSWORD = ********
-# EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '708f2339eca3ba'
+EMAIL_HOST_PASSWORD = '7509b9558fb5c0'
+EMAIL_PORT = 587
 
 #put AR first in nationality list
 COUNTRIES_FIRST_SORT = True
