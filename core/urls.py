@@ -7,6 +7,8 @@ from apps.docentes.api.routers import router as docentes_router
 from apps.administracion.api.routers import router as administracion_router
 from apps.alumnos.api.routers import router as students_router
 from apps.users.api.views.general_views import CustomRegisterView
+from django.conf import settings
+from django.conf.urls.static import static
 
 #Swagger
 from rest_framework import permissions
@@ -40,12 +42,6 @@ urlpatterns = [
    #path('auth/registration/', include('dj_rest_auth.registration.urls')),
 ]
 
-# urlpatterns = [
-#     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-#     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-#     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-#     path('admin/', admin.site.urls),
-#     
-#     path('', include('apps.docentes.api.urls')),
-#     path('', include('apps.alumnos.api.routers')),
-# ]
+# URL definition in order to avoid access to media files
+if settings.DEBUG:
+   urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
