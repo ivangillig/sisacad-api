@@ -78,10 +78,10 @@ class Person(Address, BaseModel):
     birth_place = models.CharField('Lugar de nacimiento', max_length=20, blank=True, null=True)
     nationality = CountryField('Nacionalidad', blank_label='Selecciona un país', null=True)
     CHOICES_GENDER = [
-        ('Masculino', 'Masculino'),
-        ('Femenino', 'Femenino'),
-        ('Sin género', 'Sin género'),
-        ('Sin especificar', 'Sin especificar'),
+        ('Sin especificar', '1'),
+        ('Sin género', '2'),
+        ('Masculino', '3'),
+        ('Femenino', '4'),
     ]
     gender = models.CharField(
         'Género',
