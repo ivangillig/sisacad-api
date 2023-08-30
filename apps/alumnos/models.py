@@ -7,7 +7,7 @@ from apps.base.models import BaseModel
 
 # Create your models here.
 class Student(Person):
-    
+
     family_phone = models.CharField('Teléfono familiar', max_length=15, blank=True, null=True)
     medical_treatment = models.BooleanField('Tratamiento médico', default=False, blank=True, null=True)
     medications = models.TextField('Medicamentos', max_length=200, blank=True, null=True)
