@@ -165,14 +165,20 @@ class CourseStudentViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         data = request.data
 
-        course = Course.objects.get(id=data.get('course')) if data.get('course') else None
-        student = Student.objects.get(id=data.get('student')) if data.get('student') else None
-        add_date = data['add_date']
+        try:
+            course = Course.objects.get(id=data.get('course')) if data.get('course') else None
+            student = Student.objects.get(id=data.get('student')) if data.get('student') else None
+            add_date = data['add_date']
 
-        Course_Student.objects.create(
-            course=course,
-            student=student,
-            add_date=add_date
-        )
+            Course_Student.objects.create(
+                course=course,
+                student=student,
+                add_date=add_date
+            )
 
-        return Response({'message': 'Alumno matriculado correctamente'}, status=status.HTTP_201_CREATED)
+            return Response({'message': 'Alumno matriculado correctamente'}, status=status.HTTP_201_CREATED)
+
+        except IntegrityError:
+            return Response({'message': 'Parece que este alumno ya está matriculado en el curso seleccionado.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            return Response({'message': f'Error inesperado: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -24,6 +24,31 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     #permission_classes = [IsAuthenticated]
 
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+
+        if response.status_code == 201:
+            student = Student.objects.get(id=response.data['id'])
+
+            context = {
+                'student_name': student.first_name,
+                'student_name': student.email,
+                'website_url': website_url,
+                'student': student
+            }
+            email_body = render_to_string('newStudent.html', context)
+
+            email = EmailMessage(
+                'Bienvenido/a a nuestra institución',
+                email_body,
+                'juvenilinstitutofueguino@jif.com.ar',
+                [student.user.email]
+            )
+            email.content_subtype = 'html'
+            email.send()
+
+        return response
+
     @action(detail=False, methods=['post'])
     def delete_multiple(self, request):
         students_ids = request.data.get('students_ids', [])
@@ -54,8 +79,6 @@ class Student_TutorViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             return Student_TutorSerializer
         else:
-            # Aquí especificas un serializer diferente para la acción retrieve
-            # que incluirá la información de los modelos foráneos
             return StudentTutorWithRelatedSerializer
 
 class StudentTutorWithRelatedSerializer(serializers.ModelSerializer):
