@@ -40,7 +40,7 @@ class CheckUserViewset(viewsets.ModelViewSet):
 
     def create(self, request):
 
-        data = json.loads(request.body)        
+        data = json.loads(request.body)
         email = self.get_serializer().Meta.model.objects.filter(email = data['email'])
 
         if not email:
@@ -51,7 +51,6 @@ class PersonViewset(viewsets.ViewSet):
     serializer_class = PersonSerializer
     queryset = PersonSerializer.Meta.model.objects.all() # Definimos el queryset
 
-    
     def retrieve(self, request, pk=None):
         try:
             person = Person.objects.get(doc_number=pk)

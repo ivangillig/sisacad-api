@@ -162,6 +162,16 @@ class CourseStudentViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(students, many=True)
         return Response(serializer.data)
 
+    @action(detail=False, methods=['get'], url_path='current_course/(?P<student_id>\\d+)')
+    def current_course_for_student(self, request, student_id=None):
+        from datetime import date
+        current_year = date.today().year
+        course_student = Course_Student.objects.filter(student__id=student_id, course__academic_year=current_year, state=True).first()
+        if course_student:
+            serializer = self.get_serializer(course_student)
+            return Response(serializer.data)
+        return Response({'message': 'No se encontró un curso actual para el estudiante'}, status=status.HTTP_404_NOT_FOUND)
+
     def create(self, request, *args, **kwargs):
         data = request.data
 

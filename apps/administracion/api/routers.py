@@ -17,6 +17,7 @@ router.register(r'secretaria/modalidad', SpecialityViewSet, basename='modalidad'
 router.register(r'secretaria/grado', GradeViewSet, basename='grado')
 router.register(r'secretaria/curso', CourseViewSet, basename='curso')
 router.register(r'secretaria/curso_alumno', CourseStudentViewSet, basename='curso_alumno')
+router.register(r'secretaria/curso_alumno/current_course/<student_id>', CourseStudentViewSet, basename='curso_alumno')
 
 
 # router.register(r'secretaria/division/delete_multiple', DivisionViewSet.as_view({'post': 'delete_multiple'}), basename='delete_multiple')
