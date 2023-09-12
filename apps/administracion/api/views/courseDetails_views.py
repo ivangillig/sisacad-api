@@ -1,4 +1,3 @@
-##VISTAS GENERICAS CON LISTAPIVIEW - REEMPLAZAR POR VIEWSET
 from django.db import IntegrityError
 from apps.alumnos.api.serializers.student_serializer import StudentSerializer
 from rest_framework import viewsets, status
@@ -14,7 +13,7 @@ from apps.administracion.api.serializers.courseDetails_serializers import Course
 
 class LevelViewSet(viewsets.ModelViewSet):
 
-    queryset = Level.objects.all() 
+    queryset = Level.objects.all()
     serializer_class = LevelSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
@@ -65,7 +64,7 @@ class DivisionViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response('Error al eliminar divisiones', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-  
+
 class GradeViewSet(viewsets.ModelViewSet):
 
     queryset = Grade.objects.all() 
@@ -189,6 +188,6 @@ class CourseStudentViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Alumno matriculado correctamente'}, status=status.HTTP_201_CREATED)
 
         except IntegrityError:
-            return Response({'message': 'Parece que este alumno ya está matriculado en el curso seleccionado.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'message': 'Parece que este alumno ya está matriculado.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except Exception as e:
             return Response({'message': f'Error inesperado: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
