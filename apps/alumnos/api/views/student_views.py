@@ -32,7 +32,7 @@ class StudentViewSet(viewsets.ModelViewSet):
 
             context = {
                 'student_name': student.first_name,
-                'student_name': student.email,
+                'student_email': student.user.email,
                 'website_url': website_url,
                 'student': student
             }

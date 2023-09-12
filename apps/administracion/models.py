@@ -25,10 +25,10 @@ class Subject(BaseModel):
         return text
 
 class Documents(BaseModel):
-    
+
     document_type = models.CharField('Tipo de documento', max_length=30, unique=True)
     #role = models.ForeignKey("User.role", verbose_name=_("Usuarios"), on_delete=models.CASCADE, null=True)
-    
+
     class Meta:
         verbose_name = 'Documento'
         verbose_name_plural = 'Documentos'
@@ -45,7 +45,6 @@ class Documents(BaseModel):
 ####################################
 
 class Division(BaseModel):
-    
     name = models.CharField('Nombre', max_length=15, unique=True)
 
     class Meta:
@@ -59,7 +58,6 @@ class Division(BaseModel):
         return text
 
 class Level(BaseModel): 
-    
     #docente = models.ForeignKey(Docente, related_name='docente', on_delete=models.CASCADE, null=True)
     name = models.CharField('Nombre', max_length=30, unique=True)
 
@@ -74,7 +72,6 @@ class Level(BaseModel):
         return text
 
 class Speciality(BaseModel):
-    
     name = models.CharField('Nombre', max_length=40, unique=True)
     shortName = models.CharField('Nombre_corto', max_length=12, blank=True, null=True)
 
@@ -90,7 +87,6 @@ class Speciality(BaseModel):
         return text
 
 class Grade(BaseModel):
-    
     level = models.ForeignKey(Level, on_delete=models.CASCADE, verbose_name='Nivel')
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, verbose_name='Modalidad', blank=True, null=True)
     division = models.ForeignKey(Division, on_delete=models.CASCADE, verbose_name='División', blank=True, null=True)
@@ -203,7 +199,6 @@ class Course_Student(BaseModel):
 ####################################
 
 class Category (BaseModel):
-    
     category_id = models.IntegerField('Código de categoría', primary_key=True)
     name = models.CharField('Nombre', max_length=50, unique=True)
 
@@ -219,7 +214,6 @@ class Category (BaseModel):
         return text
 
 class Position (BaseModel):
-    
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Categoría')
     place_number1 = models.IntegerField('Nro de plaza 1', blank=True, null=True)
     place_number2 = models.IntegerField('Nro de plaza 2', blank=True, null=True)
@@ -239,7 +233,6 @@ class Position (BaseModel):
 
 
 class Position_Teacher(BaseModel):
-    
     teacher = models.ForeignKey('docentes.Teacher', on_delete=models.CASCADE, verbose_name='Docente', null=True)
     position = models.ForeignKey('administracion.Position', on_delete=models.CASCADE, verbose_name='Cargo')
     POSITION_TYPE_CHOICES = [
