@@ -17,6 +17,18 @@ class LevelViewSet(viewsets.ModelViewSet):
     serializer_class = LevelSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
+    def create(self, request, *args, **kwargs):
+        level_name = request.data.get('name')
+        if Level.objects.filter(name=level_name).exists():
+            return Response({'message': 'Ya existe un nivel con ese nombre.'}, status=status.HTTP_400_BAD_REQUEST)
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        level_name = request.data.get('name')
+        if Level.objects.filter(name=level_name).exclude(pk=kwargs.get('pk')).exists():
+            return Response({'message': 'Ya existe un nivel con ese nombre.'}, status=status.HTTP_400_BAD_REQUEST)
+        return super().update(request, *args, **kwargs)
+
     @action(detail=False, methods=['post'])
     def delete_multiple(self, request):
         level_ids = request.data.get('level_ids', [])
@@ -31,7 +43,7 @@ class LevelViewSet(viewsets.ModelViewSet):
 
 class SpecialityViewSet(viewsets.ModelViewSet):
 
-    queryset = Speciality.objects.all() 
+    queryset = Speciality.objects.all()
     serializer_class = SpecialitySerializer
     # permission_classes = [permissions.IsAuthenticated]
 
