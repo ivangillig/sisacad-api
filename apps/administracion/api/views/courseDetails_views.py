@@ -1,3 +1,4 @@
+from xml.dom import ValidationErr
 from django.db import IntegrityError
 from apps.alumnos.api.serializers.student_serializer import StudentSerializer
 from rest_framework import viewsets, status
@@ -142,9 +143,25 @@ class GradeViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 class CourseViewSet(viewsets.ModelViewSet):
-    queryset = Course.objects.all()
+    #queryset = Course.objects.all()
     serializer_class = CourseSerializer
     # permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        Opcionalmente restringe el conjunto de consultas devuelto por año académico,
+        al filtrar contra un parámetro `academic_year` en la URL.
+        """
+        queryset = Course.objects.all()
+        academic_year = self.request.query_params.get('academic_year', None)
+        if academic_year:
+            try:
+                # Convert the format "YYYY-01-01" to "YYYY" in order to filter
+                year_only = academic_year.split('-')[0]
+                queryset = queryset.filter(academic_year=year_only)
+            except IndexError:
+                raise ValidationErr({"error": "Formato de año académico inválido."})
+        return queryset
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -169,12 +186,35 @@ class CourseStudentViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='curso/(?P<course_id>\d+)')
     def students_in_course(self, request, course_id=None):
+        """
+        Retrieve students in a specific course.
+
+        This endpoint returns a list of students who are enrolled in the specified course.
+
+        Parameters:
+        - course_id: The ID of the course for which to retrieve the students.
+
+        Returns:
+        - 200 OK: A list of students in the specified course.
+        """
         students = Course_Student.objects.filter(course__id=course_id)
         serializer = self.get_serializer(students, many=True)
         return Response(serializer.data)
 
     @action(detail=False, methods=['get'], url_path='current_course/(?P<student_id>\\d+)')
     def current_course_for_student(self, request, student_id=None):
+        """
+        Retrieve the current active course for a specific student.
+
+        This endpoint returns the active course in which a student is enrolled for the current academic year.
+
+        Parameters:
+        - student_id: The ID of the student for whom to retrieve the current course.
+
+        Returns:
+        - 200 OK: The active course for the student for the current academic year.
+        - 404 Not Found: If no active course is found for the student for the current academic year.
+        """
         from datetime import date
         current_year = date.today().year
         course_student = Course_Student.objects.filter(student__id=student_id, course__academic_year=current_year, state=True).first()
@@ -184,12 +224,39 @@ class CourseStudentViewSet(viewsets.ModelViewSet):
         return Response({'message': 'No se encontró un curso actual para el estudiante'}, status=status.HTTP_404_NOT_FOUND)
 
     def create(self, request, *args, **kwargs):
+        """
+        Enroll a student in a course.
+
+        This endpoint allows you to enroll a student in a specific course.
+        It checks if the student is already enrolled in an active course for the same academic year
+        and returns an error if that's the case.
+
+        Parameters:
+        - course: The ID of the course in which the student will be enrolled.
+        - student: The ID of the student to be enrolled.
+        - add_date: The date on which the student is added to the course.
+
+        Returns:
+        - 201 Created: If the student is successfully enrolled.
+        - 400 Bad Request: If the student is already enrolled in an active course for the same academic year.
+        - 500 Internal Server Error: For other unexpected errors.
+        """
         data = request.data
 
         try:
             course = Course.objects.get(id=data.get('course')) if data.get('course') else None
             student = Student.objects.get(id=data.get('student')) if data.get('student') else None
             add_date = data['add_date']
+
+            # Check if the student is already enrolled in an active course for the same academic year
+            existing_course_student = Course_Student.objects.filter(
+                student=student,
+                course__academic_year=course.academic_year,
+                state=True
+            ).first()
+
+            if existing_course_student:
+                return Response({'message': 'El estudiante ya está matriculado en un curso activo para este año'}, status=status.HTTP_400_BAD_REQUEST)
 
             Course_Student.objects.create(
                 course=course,
@@ -200,6 +267,7 @@ class CourseStudentViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Alumno matriculado correctamente'}, status=status.HTTP_201_CREATED)
 
         except IntegrityError:
-            return Response({'message': 'Parece que este alumno ya está matriculado.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'message': 'Parece que este alumno ya está matriculado'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except Exception as e:
             return Response({'message': f'Error inesperado: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
