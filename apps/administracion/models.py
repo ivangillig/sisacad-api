@@ -5,10 +5,6 @@ from apps.base.models import BaseModel
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
-####################################
-############# MATERIAS #############
-####################################
-
 class Subject(BaseModel):
 
     name = models.CharField('Nombre de materia', max_length=30, unique=True)
@@ -38,11 +34,6 @@ class Documents(BaseModel):
             self.document_type,
         )
         return text
-
-
-####################################
-#### ATRIBUTOS DEL AÑO LECTIVO #####
-####################################
 
 class Division(BaseModel):
     name = models.CharField('Nombre', max_length=15, unique=True)
@@ -117,11 +108,6 @@ def current_year():
 def max_value_current_year(value):
         return MaxValueValidator(current_year())(value)
 
-
-####################################
-####### CURSO Y ESTUDIANTES ########
-####################################
-
 class Course(BaseModel):
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, verbose_name='Año')
     academic_year = models.IntegerField('Año lectivo', validators=[MinValueValidator(1984), max_value_current_year])
@@ -194,10 +180,6 @@ class Course_Student(BaseModel):
         )
         return text
 
-####################################
-### CARGOS DOCENTES / CATEGORIAS ###
-####################################
-
 class Category (BaseModel):
     category_id = models.IntegerField('Código de categoría', primary_key=True)
     name = models.CharField('Nombre', max_length=50, unique=True)
@@ -230,7 +212,6 @@ class Position (BaseModel):
             self.category.name
         )
         return text
-
 
 class Position_Teacher(BaseModel):
     teacher = models.ForeignKey('docentes.Teacher', on_delete=models.CASCADE, verbose_name='Docente', null=True)
@@ -266,10 +247,6 @@ class Position_Teacher(BaseModel):
         )
         return text
 
-####################################
-######### BANK INFORMATION #########
-####################################
-
 class Bank(BaseModel):
 
     bank_name = models.CharField('Nombre de banco', max_length=40, unique=True)
@@ -284,9 +261,6 @@ class Bank(BaseModel):
             self.bank_name,
         )
         return text
-
-
-###################################
 
 class Course_Subject(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Curso')

@@ -1,8 +1,7 @@
 from django.contrib import admin
 
-# Importo los modelos
+# Import models
 from apps.administracion.models import *
-
 
 admin.site.register(Documents)
 
@@ -10,7 +9,7 @@ class PositionAdmin(admin.ModelAdmin):
     model = Category
 
     list_display = ( 'id', 'cat_name', 'place_number1', 'place_number2', 'hours_qty')
-    
+
     def cat_name(self,obj):
         return obj.category.name
 
@@ -19,11 +18,11 @@ class GradeAdmin(admin.ModelAdmin):
     model = Category
 
     list_display = ( 'id', 'name', 'level_name', 'division_name') #'speciality_name' - Ver ternario para los las modalidades nulas)
-    
+
     def level_name(self,obj):
         return obj.level.name
     def division_name(self,obj):
-        return obj.division.name 
+        return obj.division.name
 
 admin.site.register(Grade, GradeAdmin)
 admin.site.register(Division)
@@ -34,7 +33,7 @@ class CourseAdmin(admin.ModelAdmin):
     model = Category
 
     list_display = ( 'grade_name', 'level_name', 'division_name', 'academic_year')
-    
+
     def level_name(self,obj):
         return obj.grade.level.name
     def division_name(self,obj):
@@ -49,7 +48,7 @@ class Position_TeacherAdmin(admin.ModelAdmin):
 
     def place_number1(self,obj):
         return obj.position.place_number1
-        
+
     place_number1.short_description = 'Nro Plaza'
 
     def category_id(self,obj):
