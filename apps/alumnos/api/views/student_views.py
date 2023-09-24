@@ -1,23 +1,40 @@
 # apps/alumnos/api/views/general_views.py
 from urllib import response
 from django.conf import settings
-
+from django.template.loader import render_to_string
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
+import os
 
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
+#from rest_framework.permissions import IsAuthenticated
+#from django.shortcuts import get_object_or_404
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
 from apps.alumnos.models import Payment_Student, Student, Tutor, Student_Tutor, Withdraw_Authorized, Student_Withdraw_Authorized
 from apps.alumnos.api.serializers.general_serializers import TutorSerializer, Student_TutorSerializer, PaymentStudentSerializer, PaymentSerializer
 from apps.alumnos.api.serializers.student_serializer import StudentSerializer, Withdraw_AuthorizedSerializer, Student_Withdraw_AuthorizedSerializer
+from apps.administracion.api.views.courseDetails_views import Course_Student
+
+from datetime import datetime
+from xhtml2pdf import pisa
 
 website_url = settings.MY_WEBSITE_URL
+
+
+def generate_pdf_from_html(html_content, output_filename):
+    # Define the path to save the PDF
+    pdf_path = os.path.join(settings.MEDIA_ROOT, output_filename)
+    
+    # Generate the PDF
+    with open(pdf_path, "w+b") as pdf_file:
+        pisa_status = pisa.CreatePDF(html_content, dest=pdf_file)
+    
+    # Return the path if successful, else None
+    return pdf_path if not pisa_status.err else None
 
 class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentSerializer
@@ -48,6 +65,66 @@ class StudentViewSet(viewsets.ModelViewSet):
             email.send()
 
         return response
+
+
+    @action(detail=False, methods=['post'], url_path='generate_regular_certificate')
+    def generate_regular_student_certificate(self, request):
+
+        student_id = request.data.get('student_id')
+        currentCourse = request.data.get('currentCourse')
+
+        if not student_id or not currentCourse:
+            return Response({'message': 'Se requieren los parámetros student_id y currentCourse.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        course_student_info = Course_Student.objects.filter(student__id=student_id, course__id=currentCourse).first()
+
+        if course_student_info:
+            context = {
+                'MEDIA_ROOT': settings.MEDIA_ROOT,
+                'actual_year': datetime.now().year,
+                'student_name': f"{course_student_info.student.first_name} {course_student_info.student.first_lastname}",
+                'doc_number': course_student_info.student.doc_number,
+                'grade': course_student_info.course.grade.name,
+                'division': course_student_info.course.grade.division,
+                'level': course_student_info.course.grade.level,
+                'date': datetime.now().strftime('%d/%m/%Y')
+            }
+
+            # create the folder structure for student
+            current_year = datetime.now().year
+            base_folder = os.path.join(settings.MEDIA_ROOT, "documentos", "alumnos", str(current_year))
+            student_folder_name = f"{course_student_info.student.doc_number}_{course_student_info.student.first_name}_{course_student_info.student.first_lastname}"
+            student_folder_path = os.path.join(base_folder, student_folder_name, "CertAlumnoRegular")
+
+            # Create the folder if doesn't exist
+            if not os.path.exists(student_folder_path):
+                os.makedirs(student_folder_path)
+
+            # Generate the PDF and get its path
+            current_date = datetime.now().strftime('%Y%m%d_%H%M%S')
+            pdf_filename = f"Cert_alumno_regular_{current_date}.pdf"
+            pdf_filepath = os.path.join(student_folder_path, pdf_filename)
+            if not pdf_filepath:
+                return Response({'message': 'Error al generar el PDF.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+            # Render the template with the context
+            html_string = render_to_string('../templates/regular_student.html', context)
+            generate_pdf_from_html(html_string, pdf_filepath)
+
+            # Send the email with the attached PDF
+            email_subject = "Certificado de Alumno Regular"
+            email_body = "Se adjunta certificado de alumno regular solicitado."
+            email = EmailMessage(
+                email_subject,
+                email_body,
+                'juvenilinstitutofueguino@jif.com.ar',
+                [course_student_info.student.user.email]
+            )
+            email.attach_file(pdf_filepath)
+            email.send()
+
+            return Response({'message': 'Se creó un nuevo certificado de alumno regular.'})
+        return Response({'message': 'No se encontró información del curso para el estudiante'}, status=status.HTTP_404_NOT_FOUND)
 
     @action(detail=False, methods=['post'])
     def delete_multiple(self, request):
@@ -142,7 +219,6 @@ class PaymentAndPaymentStudentViewSet(viewsets.GenericViewSet):
                 'student': request.data['student_id'],
                 'payment': payment.id
             }
-            print(payment_student_data)
 
             payment_student_serializer = PaymentStudentSerializer(data=payment_student_data)
             if payment_student_serializer.is_valid():

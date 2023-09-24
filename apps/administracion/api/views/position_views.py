@@ -43,10 +43,3 @@ class Position_TeacherViewSet(viewsets.ModelViewSet):
             position_teacher.save()
             return Response({'message': 'Producto eliminado correctamente!'}, status = status.HTTP_200_OK)
         return Response({'error': 'No existe un cargo con estos datos!'}, status = status.HTTP_400_BAD_REQUEST)
-
-
-        
-
-
-
-

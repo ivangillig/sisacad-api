@@ -8,7 +8,6 @@ class TutorSerializer(serializers.ModelSerializer):
         model = Tutor
         fields = '__all__'
 
-
 class Student_TutorSerializer(serializers.ModelSerializer):
     student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
     tutor = serializers.PrimaryKeyRelatedField(queryset=Tutor.objects.all())
@@ -33,4 +32,3 @@ class PaymentStudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment_Student
         fields = '__all__'
-

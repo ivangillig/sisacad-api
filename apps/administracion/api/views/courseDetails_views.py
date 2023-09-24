@@ -148,10 +148,6 @@ class CourseViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        """
-        Opcionalmente restringe el conjunto de consultas devuelto por año académico,
-        al filtrar contra un parámetro `academic_year` en la URL.
-        """
         queryset = Course.objects.all()
         academic_year = self.request.query_params.get('academic_year', None)
         if academic_year:
