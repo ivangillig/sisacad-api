@@ -1,4 +1,4 @@
 venv
 __pycache__
-core/media/documentos
+core/media/documentos/
 /env/
